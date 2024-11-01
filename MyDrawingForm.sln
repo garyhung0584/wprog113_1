@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDrawingForm", "MyDrawingForm\MyDrawingForm.csproj", "{61ADEECD-5C47-4973-BE96-78D425C7686E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{61ADEECD-5C47-4973-BE96-78D425C7686E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61ADEECD-5C47-4973-BE96-78D425C7686E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61ADEECD-5C47-4973-BE96-78D425C7686E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61ADEECD-5C47-4973-BE96-78D425C7686E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0F817755-E84D-4F52-AF94-90E14D17A93B}
+	EndGlobalSection
+EndGlobal
