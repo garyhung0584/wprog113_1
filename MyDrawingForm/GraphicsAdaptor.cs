@@ -37,7 +37,14 @@ namespace MyDrawingForm
         }
         public void DrawArc(float x, float y, float height, float width, float startAngle, float sweepAngle)
         {
-            _graphics.DrawArc(_pen, x, y, width, height, startAngle, sweepAngle);
+            try
+            {
+                _graphics.DrawArc(_pen, x, y, width, height, startAngle, sweepAngle);
+            }
+            catch (Exception)
+            {
+                return;
+            }
         }
         public void DrawString(string text, float x, float y)
         {

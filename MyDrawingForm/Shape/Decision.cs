@@ -15,12 +15,12 @@ namespace MyDrawingForm
         public override void Draw(IGraphics graphics)
         {
             Point[] points = new Point[4];
-            points[0] = new Point((int)(X + Width / 2), (int)Y);
-            points[1] = new Point((int)(X + Width), (int)(Y + Height / 2));
-            points[2] = new Point((int)(X + Width / 2), (int)(Y + Height));
-            points[3] = new Point((int)X, (int)(Y + Height / 2));
+            points[0] = new Point((int)(X + Height / 2), (int)Y);
+            points[1] = new Point((int)(X + Height), (int)(Y + Width / 2));
+            points[2] = new Point((int)(X + Height / 2), (int)(Y + Width));
+            points[3] = new Point((int)X, (int)(Y + Width / 2));
             graphics.DrawPolygon(points);
-            graphics.DrawString(ShapeText, X + Width / 3, Y + Height / 3);
+            graphics.DrawString(ShapeText, X + Height / 3, Y + Width / 3);
         }
     }
 }

@@ -14,22 +14,25 @@ namespace MyDrawingForm
 
         public List<Shape> GetShapes()
         {
-            Console.WriteLine(shapeList.Count());
             return shapeList;
         }
-
-        public void CreateShape(string shape, string name, float x, float y, float height, float width)
+        public Shape GetNewShape(string shape, string name, float x, float y, float height, float width)
         {
             int id;
             if (shapeList.Count == 0)
             {
                 id = 0;
-            } 
+            }
             else
             {
                 id = shapeList.Last().ShapeId + 1;
             }
-            shapeList.Add(shapeFactory.Create(shape, id, name, x, y, height, width));
+            return shapeFactory.Create(shape, id, name, x, y, height, width);
+        }
+
+        public void CreateShape(string shape, string name, float x, float y, float height, float width)
+        {
+            shapeList.Add(GetNewShape(shape, name, x, y, height, width));
         }
     }
 }

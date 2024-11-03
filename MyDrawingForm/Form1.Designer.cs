@@ -40,14 +40,6 @@ namespace MyDrawingForm
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ShapeDataGridView = new System.Windows.Forms.DataGridView();
-            this.刪除 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Shape = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.X = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Y = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Height = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Width = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.widthTextBox = new System.Windows.Forms.TextBox();
             this.heightTextBox = new System.Windows.Forms.TextBox();
             this.yTextBox = new System.Windows.Forms.TextBox();
@@ -68,6 +60,14 @@ namespace MyDrawingForm
             this.toolStripProcessButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripDecisionButton = new System.Windows.Forms.ToolStripButton();
             this.drawPanel = new System.Windows.Forms.Panel();
+            this.刪除 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Shape = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.X = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Y = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Height = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Width = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ShapeDataGridView)).BeginInit();
@@ -166,62 +166,6 @@ namespace MyDrawingForm
             this.ShapeDataGridView.TabIndex = 17;
             this.ShapeDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ShapeDataGridView_CellContentClick);
             // 
-            // 刪除
-            // 
-            this.刪除.HeaderText = "刪除";
-            this.刪除.Name = "刪除";
-            this.刪除.ReadOnly = true;
-            this.刪除.Width = 54;
-            // 
-            // Shape
-            // 
-            this.Shape.HeaderText = "Shape";
-            this.Shape.Name = "Shape";
-            this.Shape.ReadOnly = true;
-            this.Shape.Width = 58;
-            // 
-            // ID
-            // 
-            this.ID.HeaderText = "ID";
-            this.ID.Name = "ID";
-            this.ID.ReadOnly = true;
-            this.ID.Width = 42;
-            // 
-            // name
-            // 
-            this.name.HeaderText = "Text";
-            this.name.Name = "name";
-            this.name.ReadOnly = true;
-            this.name.Width = 51;
-            // 
-            // X
-            // 
-            this.X.HeaderText = "X";
-            this.X.Name = "X";
-            this.X.ReadOnly = true;
-            this.X.Width = 38;
-            // 
-            // Y
-            // 
-            this.Y.HeaderText = "Y";
-            this.Y.Name = "Y";
-            this.Y.ReadOnly = true;
-            this.Y.Width = 38;
-            // 
-            // Height
-            // 
-            this.Height.HeaderText = "H";
-            this.Height.Name = "Height";
-            this.Height.ReadOnly = true;
-            this.Height.Width = 38;
-            // 
-            // Width
-            // 
-            this.Width.HeaderText = "W";
-            this.Width.Name = "Width";
-            this.Width.ReadOnly = true;
-            this.Width.Width = 41;
-            // 
             // widthTextBox
             // 
             this.widthTextBox.Location = new System.Drawing.Point(335, 35);
@@ -255,18 +199,18 @@ namespace MyDrawingForm
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(343, 22);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(17, 12);
+            this.label5.Size = new System.Drawing.Size(13, 12);
             this.label5.TabIndex = 12;
-            this.label5.Text = "寬";
+            this.label5.Text = "H";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(301, 22);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(17, 12);
+            this.label4.Size = new System.Drawing.Size(16, 12);
             this.label4.TabIndex = 11;
-            this.label4.Text = "長";
+            this.label4.Text = "W";
             // 
             // label3
             // 
@@ -394,6 +338,62 @@ namespace MyDrawingForm
             this.drawPanel.Size = new System.Drawing.Size(523, 617);
             this.drawPanel.TabIndex = 6;
             // 
+            // 刪除
+            // 
+            this.刪除.HeaderText = "刪除";
+            this.刪除.Name = "刪除";
+            this.刪除.ReadOnly = true;
+            this.刪除.Width = 54;
+            // 
+            // Shape
+            // 
+            this.Shape.HeaderText = "Shape";
+            this.Shape.Name = "Shape";
+            this.Shape.ReadOnly = true;
+            this.Shape.Width = 58;
+            // 
+            // ID
+            // 
+            this.ID.HeaderText = "ID";
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            this.ID.Width = 42;
+            // 
+            // name
+            // 
+            this.name.HeaderText = "Text";
+            this.name.Name = "name";
+            this.name.ReadOnly = true;
+            this.name.Width = 51;
+            // 
+            // X
+            // 
+            this.X.HeaderText = "X";
+            this.X.Name = "X";
+            this.X.ReadOnly = true;
+            this.X.Width = 38;
+            // 
+            // Y
+            // 
+            this.Y.HeaderText = "Y";
+            this.Y.Name = "Y";
+            this.Y.ReadOnly = true;
+            this.Y.Width = 38;
+            // 
+            // Height
+            // 
+            this.Height.HeaderText = "W";
+            this.Height.Name = "Height";
+            this.Height.ReadOnly = true;
+            this.Height.Width = 41;
+            // 
+            // Width
+            // 
+            this.Width.HeaderText = "H";
+            this.Width.Name = "Width";
+            this.Width.ReadOnly = true;
+            this.Width.Width = 38;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -455,6 +455,7 @@ namespace MyDrawingForm
         private ToolStripButton toolStripTerminatorButton;
         private ToolStripButton toolStripProcessButton;
         private ToolStripButton toolStripDecisionButton;
+        private Panel drawPanel;
         private DataGridViewTextBoxColumn 刪除;
         private DataGridViewTextBoxColumn Shape;
         private DataGridViewTextBoxColumn ID;
@@ -463,7 +464,6 @@ namespace MyDrawingForm
         private DataGridViewTextBoxColumn Y;
         private DataGridViewTextBoxColumn Height;
         private DataGridViewTextBoxColumn Width;
-        private Panel drawPanel;
     }
 }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MyDrawingForm
 {
@@ -13,12 +14,21 @@ namespace MyDrawingForm
 
         public override void Draw(IGraphics graphics)
         {
-            graphics.DrawArc(X, Y, Height, Height, 90, 180);
-            graphics.DrawArc(X + Width, Y, Height, Height, 270, 180);
-            graphics.DrawLine(X + Height / 2, Y, X + Width + Height / 2, Y);
-            graphics.DrawLine(X + Height / 2, Y + Height, X + Width + Height / 2, Y + Height);
+            if (Height < 0 || Width < 0)
+            {
+                return;
+            }
 
-            graphics.DrawString(ShapeText, X + Width / 2, Y + Height / 2);
+            //Left Arc
+            graphics.DrawArc(X, Y, Width, Width, 90, 180);
+            //Right Arc
+            graphics.DrawArc(X + Height - (Width), Y, Width, Width, 270, 180);
+            //Top Line
+            graphics.DrawLine(X + Width / 2, Y, X + Height - (Width / 2), Y);
+            //Bottom Line
+            graphics.DrawLine(X + Width / 2, Y + Width, X + Height - (Width / 2), Y + Width);
+
+            graphics.DrawString(ShapeText, X + Height / 3, Y + Width / 3);
         }
     }
 }

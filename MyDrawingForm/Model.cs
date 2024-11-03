@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace MyDrawingForm
 {
@@ -17,12 +18,12 @@ namespace MyDrawingForm
         internal Shapes shapes = new Shapes();
         private string _mode = "";
 
+        Shape _hint;
 
-
-        double _firstPointX;
-        double _firstPointY;
-        double _lastPointX;
-        double _lastPointY;
+        private double _firstPointX;
+        private double _firstPointY;
+        private double _lastPointX;
+        private double _lastPointY;
         bool _isPressed = false;
 
 
@@ -33,6 +34,13 @@ namespace MyDrawingForm
             NotifyModelChanged();
         }
 
+        public void CreateHintShape(string shape, string name, float x, float y, float x2, float y2)
+        {
+            float height = (float)(x2 - x);
+            float width = (float)(y2 - y);
+            _hint = shapes.GetNewShape(shape, name, x, y, height, width);
+            NotifyModelChanged();
+        }
 
         public void PointerPressed(double x, double y)
         {
@@ -45,17 +53,21 @@ namespace MyDrawingForm
                 _firstPointX = x;
                 _firstPointY = y;
                 _isPressed = true;
+
             }
         }
+
         public void PointerMoved(double x, double y)
         {
             if (_isPressed)
             {
                 _lastPointX = x;
                 _lastPointY = y;
+                CreateHintShape(GetDrawingMode(), "", (float)_firstPointX, (float)_firstPointY, (float)_lastPointX, (float)_lastPointY);
                 NotifyModelChanged();
             }
         }
+
         public void PointerReleased(double x, double y)
         {
             if (_mode == "")
@@ -72,6 +84,7 @@ namespace MyDrawingForm
                 NotifyModelChanged();
             }
         }
+
         public void Draw(IGraphics graphics)
         {
             graphics.ClearAll();
@@ -79,11 +92,12 @@ namespace MyDrawingForm
             {
                 shape.Draw(graphics);
             }
-            //if (_isPressed)
-            //{
-            //    Start.Draw
-            //}
+            if (_isPressed)
+            {
+                _hint.Draw(graphics);
+            }
         }
+
         public static string GenerateRandomString(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -103,6 +117,7 @@ namespace MyDrawingForm
             _mode = shape;
             NotifyModelChanged();
         }
+
         public string GetDrawingMode()
         {
             return _mode;
