@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,18 +15,24 @@ namespace MyDrawingForm
 
         public override void Draw(IGraphics graphics)
         {
-            if (Height < 0)
+            if (Height < 0 || Width < 0)
             {
-                Height = Height * -1;
-                X = X - Height;
+                return ;
             }
-            if (Width < 0)
-            {
-                Width = Width * -1;
-                Y = Y - Width;
-            }
+
             graphics.DrawRectangle(X, Y, Width, Height);
-            graphics.DrawString(ShapeText, X+ Width/5, Y + Height / 5);
+            graphics.DrawString(ShapeText, X + Width / 5, Y + Height / 5);
+        }
+
+        public override bool IsPointInShape(float x, float y)
+        {
+
+
+            GraphicsPath path = new GraphicsPath();
+
+            path.AddRectangle(new RectangleF(X, Y, Height, Width));
+
+            return path.IsVisible(new Point((int)x, (int)y));
         }
     }
 }

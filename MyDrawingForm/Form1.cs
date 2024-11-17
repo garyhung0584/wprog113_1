@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,40 +23,27 @@ namespace MyDrawingForm
             InitializeComponent();
 
             this.pModel = presentationModel;
-            this._model = pModel._model;
+            this._model = pModel.model;
 
             drawPanel.MouseDown += HandleCanvasPointerPressed;
             drawPanel.MouseUp += HandleCanvasPointerReleased;
             drawPanel.MouseMove += HandleCanvasPointerMoved;
             drawPanel.Paint += HandleCanvasPaint;
 
-            _model.ModelChanged += RefreshState;
-            _model.ModelChanged += RefreshDataGrid;
+            KeyDown += KeyDownHandler;
+            KeyUp += KeyUpHandler;
+
             _model.ModelChanged += HandleModelChanged;
-        }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
 
+            addShape.DataBindings.Add("Enabled", pModel, "IsCreateEnabled");
+
+            _model.EnterPointerState();
         }
 
         private void AddShape_Click(object sender, EventArgs e)
         {
-            try
-            {
-                string shape = (string)shapeAddComboBox.SelectedItem;
-                string text = nameTextBox.Text;
-                int x = Convert.ToInt32(xTextBox.Text);
-                int y = Convert.ToInt32(yTextBox.Text);
-                int height = Convert.ToInt32(heightTextBox.Text);
-                int width = Convert.ToInt32(widthTextBox.Text);
-                _model.AddShape(shape, text, x, y, height, width);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Please fill in all fields accordingly");
-                return;
-            }
+            pModel.AddShape();
         }
 
         private void ShapeDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -64,7 +52,6 @@ namespace MyDrawingForm
             {
                 shapeList.RemoveAt(e.RowIndex);
                 HandleModelChanged();
-                RefreshDataGrid();
             }
         }
 
@@ -82,6 +69,20 @@ namespace MyDrawingForm
         {
             _model.PointerMoved(e.X, e.Y);
         }
+        private void KeyDownHandler(object sender, KeyEventArgs e)
+        {
+            // 注意：同一個鍵持續按著不放會自動Auto repeat
+            _model.KeyDown(e.KeyValue);
+            // Invalidate(); // 如果Model不會變就不需要Invalidate
+        }
+
+        private void KeyUpHandler(object sender, KeyEventArgs e)
+        {
+            _model.KeyUp(e.KeyValue);
+            // Invalidate(); // 如果Model不會變就不需要Invalidate
+        }
+
+
         public void HandleCanvasPaint(object sender, PaintEventArgs e)
         {
             _model.Draw(new GraphicsAdaptor(e.Graphics));
@@ -89,35 +90,37 @@ namespace MyDrawingForm
 
         private void ToolStripStartButton_Click(object sender, EventArgs e)
         {
-            _model.SetDrawingMode("Start");
+            pModel.SetStartMode();
         }
 
         private void ToolStripTerminatorButton_Click(object sender, EventArgs e)
         {
-            _model.SetDrawingMode("Terminator");
+            pModel.SetTerminatorMode();
         }
 
         private void ToolStripProcessButton_Click(object sender, EventArgs e)
         {
-            _model.SetDrawingMode("Process");
+            pModel.SetProcessMode();
         }
 
         private void ToolStripDecisionButton_Click(object sender, EventArgs e)
         {
-            _model.SetDrawingMode("Decision");
+            pModel.SetDecisionMode();
+        }
+        private void ToolStripSelectButton_Click(object sender, EventArgs e)
+        {
+            pModel.SetSelectMode();
         }
 
         private void RefreshState()
         {
             drawPanel.Cursor = pModel.GetCursor();
-            toolStripStartButton.Checked = pModel.IsStartChecked();
-            toolStripTerminatorButton.Checked = pModel.IsTerminatorChecked();
-            toolStripProcessButton.Checked = pModel.IsProcessChecked();
-            toolStripDecisionButton.Checked = pModel.IsDecisionChecked();
-        }
+            toolStripStartButton.Checked = pModel.IsStartChecked;
+            toolStripTerminatorButton.Checked = pModel.IsTerminatorChecked;
+            toolStripProcessButton.Checked = pModel.IsProcessChecked;
+            toolStripDecisionButton.Checked = pModel.IsDecisionChecked;
+            toolStripSelectButton.Checked = pModel.IsSelectChecked;
 
-        private void RefreshDataGrid()
-        {
             ShapeDataGridView.Rows.Clear();
             shapeList = _model.GetShapes();
             foreach (Shape s in shapeList)
@@ -129,6 +132,43 @@ namespace MyDrawingForm
         public void HandleModelChanged()
         {
             Invalidate(true);
+            RefreshState();
+        }
+
+
+        private void NameTextBox_TextChanged(object sender, EventArgs e)
+        {
+            pModel.NameTextBoxTextChanged(nameTextBox.Text);
+            nameLabel.ForeColor = pModel.NameLabelColor;
+        }
+
+        private void XTextBox_TextChanged(object sender, EventArgs e)
+        {
+            pModel.XTextBoxTextChanged(xTextBox.Text);
+            XLabel.ForeColor = pModel.XLabelColor;
+        }
+
+        private void YTextBox_TextChanged(object sender, EventArgs e)
+        {
+            pModel.YTextBoxTextChanged(yTextBox.Text);
+            YLabel.ForeColor = pModel.YLabelColor;
+        }
+
+        private void HeightTextBox_TextChanged(object sender, EventArgs e)
+        {
+            pModel.HeightTextBoxTextChanged(heightTextBox.Text);
+            HLabel.ForeColor = pModel.HeightLabelColor;
+        }
+
+        private void WidthTextBox_TextChanged(object sender, EventArgs e)
+        {
+            pModel.WidthTextBoxTextChanged(widthTextBox.Text);
+            WLabel.ForeColor = pModel.WidthLabelColor;
+        }
+
+        private void ShapeAddComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            pModel.ShapeAddComboBoxSelectedIndexChanged(shapeAddComboBox.SelectedItem.ToString());
         }
 
     }

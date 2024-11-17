@@ -15,6 +15,7 @@ namespace MyDrawingForm
         void DrawEllipse(float x, float y, float height, float width);
         void DrawArc(float x, float y, float height, float width, float startAngle, float sweepAngle);
         void DrawString(string text, float x, float y);
-        void DrawPolygon(Point[] points);
+        void DrawPolygon(float x, float y, float height, float width);
+        void DrawBoundingBox(float x, float y, float height, float width);
     }
 }

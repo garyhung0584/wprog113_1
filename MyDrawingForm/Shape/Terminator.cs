@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +20,6 @@ namespace MyDrawingForm
             {
                 return;
             }
-
             //Left Arc
             graphics.DrawArc(X, Y, Width, Width, 90, 180);
             //Right Arc
@@ -29,6 +30,21 @@ namespace MyDrawingForm
             graphics.DrawLine(X + Width / 2, Y + Width, X + Height - (Width / 2), Y + Width);
 
             graphics.DrawString(ShapeText, X + Height / 3, Y + Width / 3);
+        }
+
+        public override bool IsPointInShape(float x, float y)
+        {
+            GraphicsPath path = new GraphicsPath();
+
+            path.StartFigure();
+            path.AddArc(X, Y, Width, Width, 90, 180);
+            path.AddLine(X + Width / 2 , Y, X + Height - (Width / 2), Y);
+            path.AddArc(X + Height - (Width), Y, Width, Width, 270, 180);
+            path.AddLine(X + Width / 2, Y + Width, X + Height - (Width / 2), Y + Width);
+            //path.AddRectangle(new RectangleF(X + Width / 2, Y, X + Height - (Width / 2), Width));
+            path.CloseFigure();
+
+            return path.IsVisible(new Point((int)x, (int)y));
         }
     }
 }

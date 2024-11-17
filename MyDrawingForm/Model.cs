@@ -11,21 +11,34 @@ namespace MyDrawingForm
 {
     public class Model
     {
-
         public event ModelChangedEventHandler ModelChanged;
         public delegate void ModelChangedEventHandler();
+
+        IState pointerState;
+        IState drawingState;
+        IState currentState;
 
         internal Shapes shapes = new Shapes();
         private string _mode = "";
 
-        Shape _hint;
+        public Model()
+        {
+            pointerState = new PointerState();
+            drawingState = new DrawingState((PointerState)pointerState);
+            currentState = pointerState;
+        }
 
-        private double _firstPointX;
-        private double _firstPointY;
-        private double _lastPointX;
-        private double _lastPointY;
-        bool _isPressed = false;
+        public void EnterPointerState()
+        {
+            pointerState.Initialize(this);
+            currentState = pointerState;
+        }
 
+        public void EnterDrawingState()
+        {
+            drawingState.Initialize(this);
+            currentState = drawingState;
+        }
 
         public void AddShape(string shape, string name, float x, float y, float height, float width)
         {
@@ -34,87 +47,47 @@ namespace MyDrawingForm
             NotifyModelChanged();
         }
 
-        public void CreateHintShape(string shape, string name, float x, float y, float x2, float y2)
+        public void PointerPressed(float x, float y)
         {
-            float height = (float)(x2 - x);
-            float width = (float)(y2 - y);
-            _hint = shapes.GetNewShape(shape, name, x, y, height, width);
-            NotifyModelChanged();
+            currentState.MouseDown(x, y);
         }
 
-        public void PointerPressed(double x, double y)
+        public void PointerMoved(float x, float y)
         {
-            if (_mode == "")
-            {
-                return;
-            }
-            if (x > 0 && y > 0)
-            {
-                _firstPointX = x;
-                _firstPointY = y;
-                _isPressed = true;
-
-            }
+            currentState.MouseMove(x, y);
         }
 
-        public void PointerMoved(double x, double y)
+        public void PointerReleased(float x, float y)
         {
-            if (_isPressed)
-            {
-                _lastPointX = x;
-                _lastPointY = y;
-                CreateHintShape(GetDrawingMode(), "", (float)_firstPointX, (float)_firstPointY, (float)_lastPointX, (float)_lastPointY);
-                NotifyModelChanged();
-            }
+            currentState.MouseUp(x, y);
+        }
+        public void KeyDown(int keyValue)
+        {
+            // 注意：同一個鍵持續按著不放會自動Auto repeat
+            currentState.KeyDown(keyValue);
         }
 
-        public void PointerReleased(double x, double y)
+        public void KeyUp(int keyValue)
         {
-            if (_mode == "")
-            {
-                return;
-            }
-            if (_isPressed)
-            {
-                _isPressed = false;
-                float width = (float)(_lastPointY - _firstPointY);
-                float height = (float)(_lastPointX - _firstPointX);
-                AddShape(GetDrawingMode(), GenerateRandomString(5), (float)_firstPointX, (float)_firstPointY, height, width);
-
-                NotifyModelChanged();
-            }
+            currentState.KeyUp(keyValue);
         }
 
         public void Draw(IGraphics graphics)
         {
-            graphics.ClearAll();
-            foreach (Shape shape in shapes.GetShapes())
-            {
-                shape.Draw(graphics);
-            }
-            if (_isPressed)
-            {
-                _hint.Draw(graphics);
-            }
-        }
-
-        public static string GenerateRandomString(int length)
-        {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            StringBuilder result = new StringBuilder(length);
-            Random random = new Random();
-
-            for (int i = 0; i < length; i++)
-            {
-                result.Append(chars[random.Next(chars.Length)]);
-            }
-
-            return result.ToString();
+            currentState.OnPaint(graphics);
         }
 
         public void SetDrawingMode(string shape)
         {
             _mode = shape;
+            EnterDrawingState();
+            NotifyModelChanged();
+        }
+
+        public void SetSelectMode()
+        {
+            _mode = "";
+            EnterPointerState();
             NotifyModelChanged();
         }
 
@@ -128,7 +101,7 @@ namespace MyDrawingForm
             return shapes.GetShapes();
         }
 
-        void NotifyModelChanged()
+        public void NotifyModelChanged()
         {
             if (ModelChanged != null)
                 ModelChanged();
