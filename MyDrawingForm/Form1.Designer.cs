@@ -99,7 +99,7 @@ namespace MyDrawingForm
             // 關於ToolStripMenuItem
             // 
             this.關於ToolStripMenuItem.Name = "關於ToolStripMenuItem";
-            this.關於ToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.關於ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.關於ToolStripMenuItem.Text = "關於";
             // 
             // button1
@@ -412,6 +412,8 @@ namespace MyDrawingForm
             // 
             // toolStripSelectButton
             // 
+            this.toolStripSelectButton.Checked = true;
+            this.toolStripSelectButton.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripSelectButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripSelectButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSelectButton.Image")));
             this.toolStripSelectButton.ImageTransparentColor = System.Drawing.Color.Magenta;

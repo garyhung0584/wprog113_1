@@ -71,5 +71,6 @@ namespace MyDrawingForm
         {
             _graphics.DrawRectangle(Pens.Red, x, y, width, height);
         }
+
     }
 }

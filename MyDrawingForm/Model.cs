@@ -43,7 +43,7 @@ namespace MyDrawingForm
         public void AddShape(string shape, string name, float x, float y, float height, float width)
         {
             shapes.CreateShape(shape, name, x, y, height, width);
-            SetDrawingMode("");
+            SetSelectMode();
             NotifyModelChanged();
         }
 

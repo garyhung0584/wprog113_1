@@ -187,6 +187,7 @@ namespace MyDrawingForm
         {
             _model.SetSelectMode();
         }
+
         public Cursor GetCursor()
         {
             return _cursor;
