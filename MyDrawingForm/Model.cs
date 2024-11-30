@@ -16,7 +16,7 @@ namespace MyDrawingForm
 
         IState pointerState;
         IState drawingState;
-        IState currentState;
+        public IState currentState;
 
         internal Shapes shapes = new Shapes();
         private string _mode = "";

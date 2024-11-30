@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyDrawingForm
 {
-    internal interface IState
+    public interface IState
     {
         void Initialize(Model m);
         void OnPaint(IGraphics g);

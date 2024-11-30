@@ -166,6 +166,14 @@ namespace MyDrawingForm
                 }
             }
         }
+        public Cursor CurrentCursor
+        {
+            get
+            {
+                return _cursor;
+            }
+        }
+
 
         public void SetStartMode()
         {
@@ -188,10 +196,6 @@ namespace MyDrawingForm
             _model.SetSelectMode();
         }
 
-        public Cursor GetCursor()
-        {
-            return _cursor;
-        }
         public void UpdateState()
         {
             string mode = _model.GetDrawingMode();
@@ -303,18 +307,11 @@ namespace MyDrawingForm
 
         public void CreateBlockChanged()
         {
-            try
+            if (IsNameValid() && IsShapeValid() && IsXValid() && IsYValid() && IsHeightValid() && IsWidthValid())
             {
-                if (IsNameValid() && IsShapeValid() && IsXValid() && IsYValid() && IsHeightValid() && IsWidthValid())
-                {
-                    _isCreateEnabled = true;
-                }
-                else
-                {
-                    _isCreateEnabled = false;
-                }
+                _isCreateEnabled = true;
             }
-            catch (Exception)
+            else
             {
                 _isCreateEnabled = false;
             }

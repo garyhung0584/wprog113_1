@@ -114,7 +114,7 @@ namespace MyDrawingForm
 
         private void RefreshState()
         {
-            drawPanel.Cursor = pModel.GetCursor();
+            drawPanel.Cursor = pModel.CurrentCursor;
             toolStripStartButton.Checked = pModel.IsStartChecked;
             toolStripTerminatorButton.Checked = pModel.IsTerminatorChecked;
             toolStripProcessButton.Checked = pModel.IsProcessChecked;
