@@ -21,6 +21,7 @@ namespace MyDrawingForm.Tests
         {
             this.model = new Model();
         }
+
         [TestMethod()]
         public void EnterPointerStateTest()
         {
@@ -54,6 +55,21 @@ namespace MyDrawingForm.Tests
             var shapes = model.GetShapes();
             Assert.AreEqual(1, shapes.Count);
             Assert.AreEqual("", model.GetDrawingMode());
+
+            model.AddShape("Terminator", "test", 0, 0, 10, 20);
+
+            shapes = model.GetShapes();
+            Assert.AreEqual(2, shapes.Count);
+
+            model.AddShape("Process", "test", 0, 0, 10, 20);
+
+            shapes = model.GetShapes();
+            Assert.AreEqual(3, shapes.Count);
+
+            model.AddShape("Decision", "test", 0, 0, 10, 20);
+
+            shapes = model.GetShapes();
+            Assert.AreEqual(4, shapes.Count);
         }
 
 
@@ -193,7 +209,7 @@ namespace MyDrawingForm.Tests
             Model model = new Model();
 
             // Act
-            model.AddShape("Start", "test", 0, 0, 10, 20);
+            model.AddShape("Terminator", "test", 0, 0, 10, 20);
 
             // Assert
             Assert.AreEqual(1, model.GetShapes().Count());

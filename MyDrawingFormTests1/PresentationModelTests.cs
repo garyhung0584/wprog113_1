@@ -50,9 +50,10 @@ namespace MyDrawingForm.Tests
             var eventRaised = false;
             pModel.PropertyChanged += (sender, e) =>
             {
-                if (e.PropertyName == "IsCreateEnabled")
                     eventRaised = true;
             };
+
+            Assert.IsFalse(eventRaised);
             pModel.NameTextBoxTextChanged("TestName");
             // Assert
             Assert.IsNotNull(pobj.GetFieldOrProperty("PropertyChanged"));
@@ -62,7 +63,7 @@ namespace MyDrawingForm.Tests
         [TestMethod()]
         public void CurrentCursorTest()
         {
-
+            pModel.SetSelectMode();
             // Assert
             Assert.AreEqual(pModel.CurrentCursor, System.Windows.Forms.Cursors.Default);
         }
@@ -229,6 +230,15 @@ namespace MyDrawingForm.Tests
 
             pModel.ShapeAddComboBoxSelectedIndexChanged("Start");
             Assert.IsTrue(pModel.IsShapeValid());
+
+            pModel.ShapeAddComboBoxSelectedIndexChanged("Terminator");
+            Assert.IsTrue(pModel.IsShapeValid());
+
+            pModel.ShapeAddComboBoxSelectedIndexChanged("Process");
+            Assert.IsTrue(pModel.IsShapeValid());
+
+            pModel.ShapeAddComboBoxSelectedIndexChanged("Decision");
+            Assert.IsTrue(pModel.IsShapeValid());
         }
 
         [TestMethod()]
@@ -241,6 +251,46 @@ namespace MyDrawingForm.Tests
             pModel.WidthTextBoxTextChanged("1");
             pModel.ShapeAddComboBoxSelectedIndexChanged("Start");
             Assert.IsTrue(pModel.IsCreateEnabled);
+
+            pModel.NameTextBoxTextChanged("test");
+            pModel.XTextBoxTextChanged("a");
+            pModel.YTextBoxTextChanged("1");
+            pModel.HeightTextBoxTextChanged("1");
+            pModel.WidthTextBoxTextChanged("1");
+            pModel.ShapeAddComboBoxSelectedIndexChanged("Start");
+            Assert.IsFalse(pModel.IsCreateEnabled);
+
+            pModel.NameTextBoxTextChanged("test");
+            pModel.XTextBoxTextChanged("1");
+            pModel.YTextBoxTextChanged("b");
+            pModel.HeightTextBoxTextChanged("1");
+            pModel.WidthTextBoxTextChanged("1");
+            pModel.ShapeAddComboBoxSelectedIndexChanged("Start");
+            Assert.IsFalse(pModel.IsCreateEnabled);
+
+            pModel.NameTextBoxTextChanged("test");
+            pModel.XTextBoxTextChanged("1");
+            pModel.YTextBoxTextChanged("1");
+            pModel.HeightTextBoxTextChanged("c");
+            pModel.WidthTextBoxTextChanged("1");
+            pModel.ShapeAddComboBoxSelectedIndexChanged("Start");
+            Assert.IsFalse(pModel.IsCreateEnabled);
+
+            pModel.NameTextBoxTextChanged("test");
+            pModel.XTextBoxTextChanged("1");
+            pModel.YTextBoxTextChanged("1");
+            pModel.HeightTextBoxTextChanged("1");
+            pModel.WidthTextBoxTextChanged("d");
+            pModel.ShapeAddComboBoxSelectedIndexChanged("Start");
+            Assert.IsFalse(pModel.IsCreateEnabled);
+
+            pModel.NameTextBoxTextChanged("test");
+            pModel.XTextBoxTextChanged("1");
+            pModel.YTextBoxTextChanged("1");
+            pModel.HeightTextBoxTextChanged("1");
+            pModel.WidthTextBoxTextChanged("1");
+            pModel.ShapeAddComboBoxSelectedIndexChanged("wrong");
+            Assert.IsFalse(pModel.IsCreateEnabled);
         }
 
         [TestMethod()]
