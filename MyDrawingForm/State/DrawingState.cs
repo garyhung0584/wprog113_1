@@ -16,7 +16,7 @@ namespace MyDrawingForm
         PointerState _pointerState;
 
         private static readonly Random random = new Random();
-        private const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        public const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
         private float _firstPointX;
         private float _firstPointY;

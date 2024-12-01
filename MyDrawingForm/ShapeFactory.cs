@@ -28,7 +28,7 @@ namespace MyDrawingForm
             }
             else
             {
-                throw new ArgumentException("Invalid shape type");
+                return null;
             }
         }
 

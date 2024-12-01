@@ -95,9 +95,9 @@ namespace MyDrawingForm
                 {
                     _shape.X += _displacementX;
                     _shape.Y += _displacementY;
-                    _prevPointX = x;
-                    _prevPointY = y;
                 }
+                _prevPointX = x;
+                _prevPointY = y;
                 _m.NotifyModelChanged();
             }
         }
@@ -117,10 +117,7 @@ namespace MyDrawingForm
             }
             foreach (Shape selShape in selectedShapes)
             {
-                if (selShape != null)
-                {
-                    selShape.DrawBoundingBox(graphics);
-                }
+                selShape.DrawBoundingBox(graphics);
             }
         }
 
