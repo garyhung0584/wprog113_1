@@ -43,5 +43,13 @@ namespace MyDrawingForm.Tests
             Assert.AreEqual(true, shape.IsPointInShape(5, 5));
             Assert.AreEqual(false, shape.IsPointInShape(100,100));
         }
+
+        [TestMethod()]
+        public void IsPointAtTextTest()
+        {
+            Shape shape = new Terminator(0, "test", 100, 100, 100, 100);
+            Assert.AreEqual(true, shape.IsPointAtText(162, 134));
+            Assert.AreEqual(false, shape.IsPointAtText(100, 100));
+        }
     }
 }

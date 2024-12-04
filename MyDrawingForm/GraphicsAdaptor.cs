@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace MyDrawingForm
 {
@@ -44,6 +45,7 @@ namespace MyDrawingForm
             try
             {
                 _graphics.DrawArc(_pen, x, y, width, height, startAngle, sweepAngle);
+
             }
             catch (Exception)
             {
@@ -70,6 +72,13 @@ namespace MyDrawingForm
         public void DrawBoundingBox(float x, float y, float height, float width)
         {
             _graphics.DrawRectangle(Pens.Red, x, y, width, height);
+        }
+
+        public void DrawDot(float x, float y, float height, float width)
+        {
+            x += (width / 2)-2.5f;
+            y -= height / 8;
+            _graphics.FillRectangle(new SolidBrush(Color.Orange), (int)x, y, 5, 5);
         }
 
     }

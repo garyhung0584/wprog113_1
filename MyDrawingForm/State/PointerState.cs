@@ -21,6 +21,7 @@ namespace MyDrawingForm
         private float _prevPointX;
         private float _prevPointY;
         private bool _isPressed = false;
+        private bool _isDotPressed = false;
 
         public void Initialize(Model m)
         {
@@ -35,7 +36,6 @@ namespace MyDrawingForm
             // 檢查是否有選到圖形，使用相反順序檢查，以便選到最上層的圖形
             foreach (Shape _shape in Enumerable.Reverse(_m.GetShapes()))
             {
-
                 if (_shape.IsPointInShape(x, y))
                 {
                     if (_isCtrlKeyDown)
@@ -55,9 +55,16 @@ namespace MyDrawingForm
                     {
                         if (selectedShapes.Contains(_shape))
                         {
+                            if (_shape.IsPointAtText(x, y))
+                            {
+                                _isDotPressed = true;
+                            }
+                            else
+                            {
+                                _isPressed = true;
+                            }
                             _prevPointX = x;
                             _prevPointY = y;
-                            _isPressed = true;
                         }
                         else
                         {
@@ -86,15 +93,25 @@ namespace MyDrawingForm
 
         public void MouseMove(float x, float y)
         {
-            if (_isPressed)
+            if (_isPressed || _isDotPressed)
             {
                 int _displacementX = (int)x - (int)_prevPointX;
                 int _displacementY = (int)y - (int)_prevPointY;
-
-                foreach (Shape _shape in selectedShapes)
+                if (_isPressed)
                 {
-                    _shape.X += _displacementX;
-                    _shape.Y += _displacementY;
+                    foreach (Shape _shape in selectedShapes)
+                    {
+                        _shape.X += _displacementX;
+                        _shape.Y += _displacementY;
+                    }
+                }
+                if (_isDotPressed)
+                {
+                    foreach (Shape _shape in selectedShapes)
+                    {
+                        _shape.TextBiasX += _displacementX;
+                        _shape.TextBiasY += _displacementY;
+                    }
                 }
                 _prevPointX = x;
                 _prevPointY = y;
@@ -105,6 +122,7 @@ namespace MyDrawingForm
         public void MouseUp(float x, float y)
         {
             _isPressed = false;
+            _isDotPressed = false;
         }
 
         public void OnPaint(IGraphics graphics)

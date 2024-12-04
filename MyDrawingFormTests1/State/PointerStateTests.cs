@@ -70,6 +70,12 @@ namespace MyDrawingForm.Tests
 
             _pointerState.MouseDown(15, 15);
             Assert.AreEqual(_pointerState.selectedShapes.Count(), 2);
+
+            _pointerState.KeyUp(17);
+            _model.AddShape("Process", "test", 100, 100, 100, 100);
+            _pointerState.MouseDown(162, 134);
+            _pointerState.MouseDown(162, 134);
+            Assert.IsTrue((bool)pState.GetFieldOrProperty("_isDotPressed"));
         }
 
         [TestMethod()]
@@ -94,13 +100,23 @@ namespace MyDrawingForm.Tests
 
             _model.AddShape("Process", "test", 0, 0, 10, 10);
             _pointerState.MouseMove(5, 5);
-            Assert.AreEqual(pState.GetFieldOrProperty("_isPressed"), false);
+            Assert.AreEqual(false, pState.GetFieldOrProperty("_isPressed"));
 
             _pointerState.MouseDown(5, 5);
             _pointerState.MouseDown(5, 5);
+            Assert.AreEqual(true, pState.GetFieldOrProperty("_isPressed"));
             _pointerState.MouseMove(10f, 10f);
             Assert.AreEqual(10f, pState.GetFieldOrProperty("_prevPointX"));
             Assert.AreEqual(10f, pState.GetFieldOrProperty("_prevPointY"));
+
+            _pointerState.MouseUp(0, 0);
+            _model.AddShape("Process", "test", 100, 100, 100, 100);
+            _pointerState.MouseDown(162, 134);
+            _pointerState.MouseDown(162, 134);
+            _pointerState.MouseMove(167, 139);
+            Assert.IsTrue((bool)pState.GetFieldOrProperty("_isDotPressed"));
+            Assert.AreEqual(167f, pState.GetFieldOrProperty("_prevPointX"));
+            Assert.AreEqual(139f, pState.GetFieldOrProperty("_prevPointY"));
         }
 
         [TestMethod()]

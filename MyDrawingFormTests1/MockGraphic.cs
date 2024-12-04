@@ -47,5 +47,9 @@ namespace MyDrawingFormTests1
         {
         }
 
+        public void DrawDot(float x, float y, float height, float width)
+        {
+        }
+
     }
 }

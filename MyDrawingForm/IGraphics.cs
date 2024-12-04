@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MyDrawingForm
 {
@@ -17,5 +18,6 @@ namespace MyDrawingForm
         void DrawString(string text, float x, float y);
         void DrawPolygon(float x, float y, float height, float width);
         void DrawBoundingBox(float x, float y, float height, float width);
+        void DrawDot(float x, float y, float height, float width);
     }
 }
