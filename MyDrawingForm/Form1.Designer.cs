@@ -218,9 +218,9 @@ namespace MyDrawingForm
             this.HLabel.Location = new System.Drawing.Point(514, 33);
             this.HLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.HLabel.Name = "HLabel";
-            this.HLabel.Size = new System.Drawing.Size(20, 18);
+            this.HLabel.Size = new System.Drawing.Size(36, 27);
             this.HLabel.TabIndex = 12;
-            this.HLabel.Text = "H";
+            this.HLabel.Text = "W";
             // 
             // WLabel
             // 
@@ -229,9 +229,9 @@ namespace MyDrawingForm
             this.WLabel.Location = new System.Drawing.Point(452, 33);
             this.WLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.WLabel.Name = "WLabel";
-            this.WLabel.Size = new System.Drawing.Size(24, 18);
+            this.WLabel.Size = new System.Drawing.Size(30, 27);
             this.WLabel.TabIndex = 11;
-            this.WLabel.Text = "W";
+            this.WLabel.Text = "H";
             // 
             // YLabel
             // 

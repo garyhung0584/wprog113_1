@@ -19,7 +19,7 @@ namespace MyDrawingForm
         private bool _isDecisionChecked;
         private bool _isSelectChecked;
         private bool _isCreateEnabled = false;
-        private bool _isDeleteEnabled = false;
+        private bool _isConnectorChecked = false;
         private bool _isUndoEnabled = false;
         private bool _isRedoEnabled = false;
 
@@ -97,11 +97,11 @@ namespace MyDrawingForm
                 return _isSelectChecked;
             }
         }
-        public bool IsDeleteEnabled
+        public bool IsConnectorChecked
         {
             get
             {
-                return _isDeleteEnabled;
+                return _isConnectorChecked;
             }
         }
         public bool IsUndoEnabled
@@ -220,7 +220,7 @@ namespace MyDrawingForm
 
         public void SetConnectorMode()
         {
-            //_model.SetConnectorMode();
+            _model.SetConnectorMode();
         }
 
         public void Undo()
@@ -250,6 +250,7 @@ namespace MyDrawingForm
             _isTerminatorChecked = mode == "Terminator";
             _isProcessChecked = mode == "Process";
             _isDecisionChecked = mode == "Decision";
+            _isConnectorChecked = mode == "Connector";
             _isSelectChecked = mode == "";
 
             _isUndoEnabled = _model.commandManager.IsUndoEnabled;

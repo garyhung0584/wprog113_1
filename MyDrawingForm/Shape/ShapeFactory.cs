@@ -12,11 +12,11 @@ namespace MyDrawingForm
         {
             if (shape == "Start")
             {
-                return new Start(id, text, x, y, width, height); // 修改為 X 和 Y
+                return new Start(id, text, x, y, width, height);
             }
             else if (shape == "Terminator")
             {
-                return new Terminator(id, text, x, y, width, height); // 修改為 X 和 Y
+                return new Terminator(id, text, x, y, width, height);
             }
             else if (shape == "Process")
             {

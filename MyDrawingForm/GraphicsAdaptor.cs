@@ -73,9 +73,16 @@ namespace MyDrawingForm
             _graphics.DrawRectangle(Pens.Red, x, y, width, height);
         }
 
-        public void DrawDot(int x, int y, int width, int height)
+        public void DrawDot(bool isRed, int x, int y, int width, int height)
         {
-            _graphics.FillRectangle(new SolidBrush(Color.Orange), x, y, width, height);
+            if (isRed)
+            {
+                _graphics.FillRectangle(new SolidBrush(Color.Orange), x, y, width, height);
+            }
+            else
+            {
+                _graphics.FillRectangle(new SolidBrush(Color.Black), x, y, width, height);
+            }
         }
     }
 }

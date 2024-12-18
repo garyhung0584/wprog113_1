@@ -11,6 +11,6 @@ namespace MyDrawingForm
         void DrawString(string text, int x, int y);
         void DrawPolygon(int x, int y, int height, int width);
         void DrawBoundingBox(int x, int y, int height, int width);
-        void DrawDot(int x, int y, int height, int width);
+        void DrawDot(bool isRed, int x, int y, int height, int width);
     }
 }

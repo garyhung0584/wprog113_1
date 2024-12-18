@@ -135,6 +135,7 @@
     <Compile Include="Commands\TextChangeCommand.cs" />
     <Compile Include="Form2PresentationModel.cs" />
     <Compile Include="Line.cs" />
+    <Compile Include="LineHint.cs" />
     <Compile Include="State\ConnectorState.cs" />
     <Compile Include="DoubleBufferPanel.cs">
       <SubType>Component</SubType>

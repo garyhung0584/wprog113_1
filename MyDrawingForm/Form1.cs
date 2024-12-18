@@ -40,8 +40,7 @@ namespace MyDrawingForm
         {
             if (e.ColumnIndex == 0 && e.RowIndex >= 0)
             {
-                shapeList.RemoveAt(e.RowIndex);
-                HandleModelChanged();
+                _model.DataGridRemoveShape(shapeList[e.RowIndex]);
             }
         }
 
@@ -114,6 +113,7 @@ namespace MyDrawingForm
             toolStripProcessButton.Checked = pModel.IsProcessChecked;
             toolStripDecisionButton.Checked = pModel.IsDecisionChecked;
             toolStripSelectButton.Checked = pModel.IsSelectChecked;
+            toolStripConnectorButton.Checked = pModel.IsConnectorChecked;
 
             toolStripUndoButton.Enabled = pModel.IsUndoEnabled;
             toolStripRedoButton.Enabled = pModel.IsRedoEnabled;

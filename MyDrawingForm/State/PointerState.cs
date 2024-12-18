@@ -124,6 +124,10 @@ namespace MyDrawingForm
                 shape.Draw(graphics);
             }
             selectedShape?.DrawBoundingBox(graphics);
+            foreach (Line line in _m.GetLines())
+            {
+                line.Draw(graphics);
+            }
         }
     }
 }

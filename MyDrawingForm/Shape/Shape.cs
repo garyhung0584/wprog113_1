@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,11 +37,42 @@ namespace MyDrawingForm
         public abstract bool IsPointInShape(int x, int y);
         public abstract bool IsPointAtText(int x, int y);
 
+
         public void DrawBoundingBox(IGraphics graphics)
         {
             graphics.DrawBoundingBox(X - 1, Y - 1, Width + 2, Height + 2);
             graphics.DrawBoundingBox((X + Width / 3) + TextBiasX, (Y + Height / 3) + TextBiasY, (10 * ShapeText.Length), 20);
-            graphics.DrawDot((X + Width / 3) + TextBiasX + (10 * ShapeText.Length) / 2 - 2, (Y + Height / 3) + TextBiasY - 5, 5, 5);
+            graphics.DrawDot(true, (X + Width / 3) + TextBiasX + (10 * ShapeText.Length) / 2 - 2, (Y + Height / 3) + TextBiasY - 5, 5, 5);
+        }
+
+        public void DrawConnector(IGraphics graphics)
+        {
+            graphics.DrawDot(false, (X + Width / 2) - 4, Y - 4, 8, 8);
+            graphics.DrawDot(false, X - 4, (Y + Height / 2) - 4, 8, 8);
+            graphics.DrawDot(false, (X + Width / 2) - 4, (Y + Height) - 4, 8, 8);
+            graphics.DrawDot(false, (X + Width) - 4, (Y + Height / 2) - 4, 8, 8);
+        }
+        
+        public abstract int GetConnectorNumber(int x, int y);
+
+        public List<int> GetConnectorLocation(int connectorNumber)
+        {
+            const int connectorSize = 8;
+            const int halfConnectorSize = connectorSize / 2;
+
+            switch (connectorNumber)
+            {
+                case 1: // 上方連接器
+                    return new List<int> { (X + Width / 2) - halfConnectorSize, Y - halfConnectorSize };
+                case 2: // 左方連接器
+                    return new List<int> { X - halfConnectorSize, (Y + Height / 2) - halfConnectorSize };
+                case 3: // 下方連接器
+                    return new List<int> { (X + Width / 2) - halfConnectorSize, (Y + Height) - halfConnectorSize };
+                case 4: // 右方連接器
+                    return new List<int> { (X + Width) - halfConnectorSize, (Y + Height / 2) - halfConnectorSize };
+                default:
+                    throw new ArgumentException("Invalid connector number");
+            }
         }
 
         public void Normalize()

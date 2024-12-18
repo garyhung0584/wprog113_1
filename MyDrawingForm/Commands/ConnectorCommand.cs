@@ -8,14 +8,23 @@ namespace MyDrawingForm.Commands
 {
     internal class ConnectorCommand : ICommand
     {
+        Model _m;
+        Line _line;
+
+        public ConnectorCommand(Model m, Line line)
+        {
+            _m = m;
+            _line = line;
+        }
+
         public void Execute()
         {
-            // Draw the shape
+            _m.AddLine(_line);
         }
 
         public void UnExecute()
         {
-            // Erase the shape
+            _m.RemoveLine(_line);
         }
     }
 }

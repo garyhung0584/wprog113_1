@@ -100,6 +100,10 @@ namespace MyDrawingForm
             {
                 _hint.Draw(graphics);
             }
+            foreach(Line line in _m.GetLines())
+            {
+                line.Draw(graphics);
+            }
         }
 
         public static string GenerateRandomString(int length)

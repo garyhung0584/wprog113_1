@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyDrawingForm.Commands;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -20,16 +21,21 @@ namespace MyDrawingForm
 
         IState pointerState;
         IState drawingState;
+        IState connectorState;
+
         public IState currentState;
 
         internal Shapes shapes = new Shapes();
         private string _mode = "";
+
+        List<Line> lines = new List<Line>();
 
 
         public Model()
         {
             pointerState = new PointerState();
             drawingState = new DrawingState((PointerState)pointerState);
+            connectorState = new ConnectorState();
             currentState = pointerState;
         }
 
@@ -45,23 +51,50 @@ namespace MyDrawingForm
             currentState = drawingState;
         }
 
+        public void EnterConnectorState()
+        {
+            connectorState.Initialize(this);
+            currentState = connectorState;
+        }
+
         public void AddShape(Shape s)
         {
             shapes.AddShape(s);
             SetSelectMode();
             NotifyModelChanged();
         }
-        
+
         public void RemoveShape(Shape s)
         {
             shapes.RemoveShape(s);
             EnterPointerState();
             NotifyModelChanged();
         }
+        public void DataGridRemoveShape(Shape s)
+        {
+            commandManager.Execute(new DataGridCommand(this, s));
+            NotifyModelChanged();
+        }
 
         public Shape GetShape(string shape, string name, int x, int y, int height, int width)
         {
             return shapes.GetNewShape(shape, name, x, y, height, width);
+        }
+
+        public List<Line> GetLines()
+        {
+            return lines;
+        }
+
+        public void AddLine(Line l)
+        {
+            lines.Add(l);
+            NotifyModelChanged();
+        }
+        public void RemoveLine(Line l)
+        {
+            lines.Remove(l);
+            NotifyModelChanged();
         }
 
         public void PointerPressed(int x, int y)
@@ -96,7 +129,14 @@ namespace MyDrawingForm
             EnterPointerState();
             NotifyModelChanged();
         }
-        
+
+        public void SetConnectorMode()
+        {
+            _mode = "Connector";
+            EnterConnectorState();
+            NotifyModelChanged();
+        }
+
         public void Undo()
         {
             commandManager.Undo();
