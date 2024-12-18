@@ -1,13 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MyDrawingForm
@@ -30,8 +22,6 @@ namespace MyDrawingForm
             drawPanel.MouseMove += HandleCanvasPointerMoved;
             drawPanel.Paint += HandleCanvasPaint;
 
-            KeyDown += KeyDownHandler;
-            KeyUp += KeyUpHandler;
 
             _model.ModelChanged += HandleModelChanged;
 
@@ -69,18 +59,6 @@ namespace MyDrawingForm
         {
             _model.PointerMoved(e.X, e.Y);
         }
-        private void KeyDownHandler(object sender, KeyEventArgs e)
-        {
-            // 注意：同一個鍵持續按著不放會自動Auto repeat
-            _model.KeyDown(e.KeyValue);
-            // Invalidate(); // 如果Model不會變就不需要Invalidate
-        }
-
-        private void KeyUpHandler(object sender, KeyEventArgs e)
-        {
-            _model.KeyUp(e.KeyValue);
-            // Invalidate(); // 如果Model不會變就不需要Invalidate
-        }
 
 
         public void HandleCanvasPaint(object sender, PaintEventArgs e)
@@ -107,9 +85,25 @@ namespace MyDrawingForm
         {
             pModel.SetDecisionMode();
         }
+
         private void ToolStripSelectButton_Click(object sender, EventArgs e)
         {
             pModel.SetSelectMode();
+        }
+
+        private void ToolStripConnectorButton_Click(object sender, EventArgs e)
+        {
+            pModel.SetConnectorMode();
+        }
+
+        private void ToolStripUndoButton_Click(object sender, EventArgs e)
+        {
+            pModel.Undo();
+        }
+
+        private void ToolStripRedoButton_Click(object sender, EventArgs e)
+        {
+            pModel.Redo();
         }
 
         private void RefreshState()

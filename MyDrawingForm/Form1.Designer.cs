@@ -68,7 +68,10 @@ namespace MyDrawingForm
             this.toolStripProcessButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripDecisionButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSelectButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripUndoButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripRedoButton = new System.Windows.Forms.ToolStripButton();
             this.drawPanel = new MyDrawingForm.DoubleBufferedPanel();
+            this.toolStripConnectorButton = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ShapeDataGridView)).BeginInit();
@@ -78,13 +81,13 @@ namespace MyDrawingForm
             // 
             // menuStrip1
             // 
+            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.說明ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 1, 0, 1);
-            this.menuStrip1.Size = new System.Drawing.Size(1080, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1620, 33);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -93,29 +96,31 @@ namespace MyDrawingForm
             this.說明ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.關於ToolStripMenuItem});
             this.說明ToolStripMenuItem.Name = "說明ToolStripMenuItem";
-            this.說明ToolStripMenuItem.Size = new System.Drawing.Size(45, 22);
+            this.說明ToolStripMenuItem.Size = new System.Drawing.Size(66, 29);
             this.說明ToolStripMenuItem.Text = "說明";
             // 
             // 關於ToolStripMenuItem
             // 
             this.關於ToolStripMenuItem.Name = "關於ToolStripMenuItem";
-            this.關於ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.關於ToolStripMenuItem.Size = new System.Drawing.Size(152, 34);
             this.關於ToolStripMenuItem.Text = "關於";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 60);
+            this.button1.Location = new System.Drawing.Point(18, 90);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(145, 110);
+            this.button1.Size = new System.Drawing.Size(218, 165);
             this.button1.TabIndex = 1;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(12, 177);
+            this.button2.Location = new System.Drawing.Point(18, 266);
+            this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(145, 110);
+            this.button2.Size = new System.Drawing.Size(218, 165);
             this.button2.TabIndex = 2;
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
@@ -135,9 +140,11 @@ namespace MyDrawingForm
             this.groupBox1.Controls.Add(this.nameTextBox);
             this.groupBox1.Controls.Add(this.shapeAddComboBox);
             this.groupBox1.Controls.Add(this.addShape);
-            this.groupBox1.Location = new System.Drawing.Point(692, 60);
+            this.groupBox1.Location = new System.Drawing.Point(1038, 90);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(376, 625);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Size = new System.Drawing.Size(564, 938);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "資料顯示";
@@ -158,12 +165,13 @@ namespace MyDrawingForm
             this.Y,
             this.Height,
             this.Width});
-            this.ShapeDataGridView.Location = new System.Drawing.Point(11, 77);
+            this.ShapeDataGridView.Location = new System.Drawing.Point(16, 116);
+            this.ShapeDataGridView.Margin = new System.Windows.Forms.Padding(4);
             this.ShapeDataGridView.Name = "ShapeDataGridView";
             this.ShapeDataGridView.ReadOnly = true;
             this.ShapeDataGridView.RowHeadersWidth = 4;
             this.ShapeDataGridView.RowTemplate.Height = 24;
-            this.ShapeDataGridView.Size = new System.Drawing.Size(354, 534);
+            this.ShapeDataGridView.Size = new System.Drawing.Size(531, 801);
             this.ShapeDataGridView.TabIndex = 17;
             this.ShapeDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ShapeDataGridView_CellContentClick);
             // 
@@ -173,7 +181,7 @@ namespace MyDrawingForm
             this.刪除.MinimumWidth = 8;
             this.刪除.Name = "刪除";
             this.刪除.ReadOnly = true;
-            this.刪除.Width = 54;
+            this.刪除.Width = 80;
             // 
             // Shape
             // 
@@ -181,7 +189,7 @@ namespace MyDrawingForm
             this.Shape.MinimumWidth = 8;
             this.Shape.Name = "Shape";
             this.Shape.ReadOnly = true;
-            this.Shape.Width = 58;
+            this.Shape.Width = 85;
             // 
             // ID
             // 
@@ -189,7 +197,7 @@ namespace MyDrawingForm
             this.ID.MinimumWidth = 8;
             this.ID.Name = "ID";
             this.ID.ReadOnly = true;
-            this.ID.Width = 42;
+            this.ID.Width = 62;
             // 
             // name
             // 
@@ -197,7 +205,7 @@ namespace MyDrawingForm
             this.name.MinimumWidth = 8;
             this.name.Name = "name";
             this.name.ReadOnly = true;
-            this.name.Width = 51;
+            this.name.Width = 75;
             // 
             // X
             // 
@@ -205,7 +213,7 @@ namespace MyDrawingForm
             this.X.MinimumWidth = 8;
             this.X.Name = "X";
             this.X.ReadOnly = true;
-            this.X.Width = 38;
+            this.X.Width = 56;
             // 
             // Y
             // 
@@ -213,7 +221,7 @@ namespace MyDrawingForm
             this.Y.MinimumWidth = 8;
             this.Y.Name = "Y";
             this.Y.ReadOnly = true;
-            this.Y.Width = 38;
+            this.Y.Width = 56;
             // 
             // Height
             // 
@@ -221,7 +229,7 @@ namespace MyDrawingForm
             this.Height.MinimumWidth = 8;
             this.Height.Name = "Height";
             this.Height.ReadOnly = true;
-            this.Height.Width = 41;
+            this.Height.Width = 60;
             // 
             // Width
             // 
@@ -229,37 +237,41 @@ namespace MyDrawingForm
             this.Width.MinimumWidth = 8;
             this.Width.Name = "Width";
             this.Width.ReadOnly = true;
-            this.Width.Width = 38;
+            this.Width.Width = 56;
             // 
             // heightTextBox
             // 
-            this.heightTextBox.Location = new System.Drawing.Point(335, 35);
+            this.heightTextBox.Location = new System.Drawing.Point(502, 52);
+            this.heightTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.heightTextBox.Name = "heightTextBox";
-            this.heightTextBox.Size = new System.Drawing.Size(30, 22);
+            this.heightTextBox.Size = new System.Drawing.Size(43, 29);
             this.heightTextBox.TabIndex = 16;
             this.heightTextBox.TextChanged += new System.EventHandler(this.HeightTextBox_TextChanged);
             // 
             // widthTextBox
             // 
-            this.widthTextBox.Location = new System.Drawing.Point(295, 35);
+            this.widthTextBox.Location = new System.Drawing.Point(442, 52);
+            this.widthTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.widthTextBox.Name = "widthTextBox";
-            this.widthTextBox.Size = new System.Drawing.Size(30, 22);
+            this.widthTextBox.Size = new System.Drawing.Size(43, 29);
             this.widthTextBox.TabIndex = 15;
             this.widthTextBox.TextChanged += new System.EventHandler(this.WidthTextBox_TextChanged);
             // 
             // yTextBox
             // 
-            this.yTextBox.Location = new System.Drawing.Point(255, 36);
+            this.yTextBox.Location = new System.Drawing.Point(382, 54);
+            this.yTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.yTextBox.Name = "yTextBox";
-            this.yTextBox.Size = new System.Drawing.Size(30, 22);
+            this.yTextBox.Size = new System.Drawing.Size(43, 29);
             this.yTextBox.TabIndex = 14;
             this.yTextBox.TextChanged += new System.EventHandler(this.YTextBox_TextChanged);
             // 
             // xTextBox
             // 
-            this.xTextBox.Location = new System.Drawing.Point(219, 36);
+            this.xTextBox.Location = new System.Drawing.Point(328, 54);
+            this.xTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.xTextBox.Name = "xTextBox";
-            this.xTextBox.Size = new System.Drawing.Size(30, 22);
+            this.xTextBox.Size = new System.Drawing.Size(43, 29);
             this.xTextBox.TabIndex = 13;
             this.xTextBox.TextChanged += new System.EventHandler(this.XTextBox_TextChanged);
             // 
@@ -267,9 +279,10 @@ namespace MyDrawingForm
             // 
             this.HLabel.AutoSize = true;
             this.HLabel.ForeColor = System.Drawing.Color.Red;
-            this.HLabel.Location = new System.Drawing.Point(343, 22);
+            this.HLabel.Location = new System.Drawing.Point(514, 33);
+            this.HLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.HLabel.Name = "HLabel";
-            this.HLabel.Size = new System.Drawing.Size(13, 12);
+            this.HLabel.Size = new System.Drawing.Size(20, 18);
             this.HLabel.TabIndex = 12;
             this.HLabel.Text = "H";
             // 
@@ -277,9 +290,10 @@ namespace MyDrawingForm
             // 
             this.WLabel.AutoSize = true;
             this.WLabel.ForeColor = System.Drawing.Color.Red;
-            this.WLabel.Location = new System.Drawing.Point(301, 22);
+            this.WLabel.Location = new System.Drawing.Point(452, 33);
+            this.WLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.WLabel.Name = "WLabel";
-            this.WLabel.Size = new System.Drawing.Size(16, 12);
+            this.WLabel.Size = new System.Drawing.Size(24, 18);
             this.WLabel.TabIndex = 11;
             this.WLabel.Text = "W";
             // 
@@ -287,9 +301,10 @@ namespace MyDrawingForm
             // 
             this.YLabel.AutoSize = true;
             this.YLabel.ForeColor = System.Drawing.Color.Red;
-            this.YLabel.Location = new System.Drawing.Point(263, 22);
+            this.YLabel.Location = new System.Drawing.Point(394, 33);
+            this.YLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.YLabel.Name = "YLabel";
-            this.YLabel.Size = new System.Drawing.Size(13, 12);
+            this.YLabel.Size = new System.Drawing.Size(20, 18);
             this.YLabel.TabIndex = 10;
             this.YLabel.Text = "Y";
             // 
@@ -297,9 +312,10 @@ namespace MyDrawingForm
             // 
             this.XLabel.AutoSize = true;
             this.XLabel.ForeColor = System.Drawing.Color.Red;
-            this.XLabel.Location = new System.Drawing.Point(223, 22);
+            this.XLabel.Location = new System.Drawing.Point(334, 33);
+            this.XLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.XLabel.Name = "XLabel";
-            this.XLabel.Size = new System.Drawing.Size(13, 12);
+            this.XLabel.Size = new System.Drawing.Size(20, 18);
             this.XLabel.TabIndex = 9;
             this.XLabel.Text = "X";
             // 
@@ -307,17 +323,19 @@ namespace MyDrawingForm
             // 
             this.nameLabel.AutoSize = true;
             this.nameLabel.ForeColor = System.Drawing.Color.Red;
-            this.nameLabel.Location = new System.Drawing.Point(171, 21);
+            this.nameLabel.Location = new System.Drawing.Point(256, 32);
+            this.nameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.nameLabel.Name = "nameLabel";
-            this.nameLabel.Size = new System.Drawing.Size(29, 12);
+            this.nameLabel.Size = new System.Drawing.Size(44, 18);
             this.nameLabel.TabIndex = 8;
             this.nameLabel.Text = "文字";
             // 
             // nameTextBox
             // 
-            this.nameTextBox.Location = new System.Drawing.Point(159, 36);
+            this.nameTextBox.Location = new System.Drawing.Point(238, 54);
+            this.nameTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.nameTextBox.Name = "nameTextBox";
-            this.nameTextBox.Size = new System.Drawing.Size(57, 22);
+            this.nameTextBox.Size = new System.Drawing.Size(84, 29);
             this.nameTextBox.TabIndex = 7;
             this.nameTextBox.TextChanged += new System.EventHandler(this.NameTextBox_TextChanged);
             // 
@@ -329,20 +347,18 @@ namespace MyDrawingForm
             "Terminator",
             "Process",
             "Decision"});
-            this.shapeAddComboBox.Location = new System.Drawing.Point(65, 38);
-            this.shapeAddComboBox.Margin = new System.Windows.Forms.Padding(2);
+            this.shapeAddComboBox.Location = new System.Drawing.Point(98, 57);
             this.shapeAddComboBox.Name = "shapeAddComboBox";
-            this.shapeAddComboBox.Size = new System.Drawing.Size(89, 20);
+            this.shapeAddComboBox.Size = new System.Drawing.Size(132, 26);
             this.shapeAddComboBox.TabIndex = 6;
             this.shapeAddComboBox.Text = "形狀";
             this.shapeAddComboBox.SelectedIndexChanged += new System.EventHandler(this.ShapeAddComboBox_SelectedIndexChanged);
             // 
             // addShape
             // 
-            this.addShape.Location = new System.Drawing.Point(6, 20);
-            this.addShape.Margin = new System.Windows.Forms.Padding(2);
+            this.addShape.Location = new System.Drawing.Point(9, 30);
             this.addShape.Name = "addShape";
-            this.addShape.Size = new System.Drawing.Size(55, 38);
+            this.addShape.Size = new System.Drawing.Size(82, 57);
             this.addShape.TabIndex = 5;
             this.addShape.Text = "新增";
             this.addShape.UseVisualStyleBackColor = true;
@@ -362,11 +378,14 @@ namespace MyDrawingForm
             this.toolStripTerminatorButton,
             this.toolStripProcessButton,
             this.toolStripDecisionButton,
-            this.toolStripSelectButton});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
+            this.toolStripConnectorButton,
+            this.toolStripSelectButton,
+            this.toolStripUndoButton,
+            this.toolStripRedoButton});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 33);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.toolStrip1.Size = new System.Drawing.Size(1080, 31);
+            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
+            this.toolStrip1.Size = new System.Drawing.Size(1620, 33);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -376,7 +395,7 @@ namespace MyDrawingForm
             this.toolStripStartButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripStartButton.Image")));
             this.toolStripStartButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripStartButton.Name = "toolStripStartButton";
-            this.toolStripStartButton.Size = new System.Drawing.Size(28, 28);
+            this.toolStripStartButton.Size = new System.Drawing.Size(34, 28);
             this.toolStripStartButton.Text = "Start";
             this.toolStripStartButton.Click += new System.EventHandler(this.ToolStripStartButton_Click);
             // 
@@ -386,7 +405,7 @@ namespace MyDrawingForm
             this.toolStripTerminatorButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripTerminatorButton.Image")));
             this.toolStripTerminatorButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripTerminatorButton.Name = "toolStripTerminatorButton";
-            this.toolStripTerminatorButton.Size = new System.Drawing.Size(28, 28);
+            this.toolStripTerminatorButton.Size = new System.Drawing.Size(34, 28);
             this.toolStripTerminatorButton.Text = "Terminator";
             this.toolStripTerminatorButton.Click += new System.EventHandler(this.ToolStripTerminatorButton_Click);
             // 
@@ -396,7 +415,7 @@ namespace MyDrawingForm
             this.toolStripProcessButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripProcessButton.Image")));
             this.toolStripProcessButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripProcessButton.Name = "toolStripProcessButton";
-            this.toolStripProcessButton.Size = new System.Drawing.Size(28, 28);
+            this.toolStripProcessButton.Size = new System.Drawing.Size(34, 28);
             this.toolStripProcessButton.Text = "Process";
             this.toolStripProcessButton.Click += new System.EventHandler(this.ToolStripProcessButton_Click);
             // 
@@ -406,7 +425,7 @@ namespace MyDrawingForm
             this.toolStripDecisionButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDecisionButton.Image")));
             this.toolStripDecisionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDecisionButton.Name = "toolStripDecisionButton";
-            this.toolStripDecisionButton.Size = new System.Drawing.Size(28, 28);
+            this.toolStripDecisionButton.Size = new System.Drawing.Size(34, 28);
             this.toolStripDecisionButton.Text = "Decision";
             this.toolStripDecisionButton.Click += new System.EventHandler(this.ToolStripDecisionButton_Click);
             // 
@@ -418,23 +437,54 @@ namespace MyDrawingForm
             this.toolStripSelectButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSelectButton.Image")));
             this.toolStripSelectButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSelectButton.Name = "toolStripSelectButton";
-            this.toolStripSelectButton.Size = new System.Drawing.Size(28, 28);
+            this.toolStripSelectButton.Size = new System.Drawing.Size(34, 28);
             this.toolStripSelectButton.Text = "toolStripButton1";
             this.toolStripSelectButton.ToolTipText = "Select";
             this.toolStripSelectButton.Click += new System.EventHandler(this.ToolStripSelectButton_Click);
             // 
+            // toolStripUndoButton
+            // 
+            this.toolStripUndoButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripUndoButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripUndoButton.Image")));
+            this.toolStripUndoButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripUndoButton.Name = "toolStripUndoButton";
+            this.toolStripUndoButton.Size = new System.Drawing.Size(34, 28);
+            this.toolStripUndoButton.Text = "toolStripButton1";
+            this.toolStripUndoButton.Click += new System.EventHandler(this.ToolStripUndoButton_Click);
+            // 
+            // toolStripRedoButton
+            // 
+            this.toolStripRedoButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripRedoButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripRedoButton.Image")));
+            this.toolStripRedoButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripRedoButton.Name = "toolStripRedoButton";
+            this.toolStripRedoButton.Size = new System.Drawing.Size(34, 28);
+            this.toolStripRedoButton.Text = "toolStripButton2";
+            this.toolStripRedoButton.Click += new System.EventHandler(this.ToolStripRedoButton_Click);
+            // 
             // drawPanel
             // 
-            this.drawPanel.Location = new System.Drawing.Point(163, 60);
+            this.drawPanel.Location = new System.Drawing.Point(244, 90);
+            this.drawPanel.Margin = new System.Windows.Forms.Padding(4);
             this.drawPanel.Name = "drawPanel";
-            this.drawPanel.Size = new System.Drawing.Size(523, 617);
+            this.drawPanel.Size = new System.Drawing.Size(784, 926);
             this.drawPanel.TabIndex = 6;
+            // 
+            // toolStripConnectorButton
+            // 
+            this.toolStripConnectorButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripConnectorButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripConnectorButton.Image")));
+            this.toolStripConnectorButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripConnectorButton.Name = "toolStripConnectorButton";
+            this.toolStripConnectorButton.Size = new System.Drawing.Size(34, 28);
+            this.toolStripConnectorButton.Text = "toolStripButton1";
+            this.toolStripConnectorButton.Click += new System.EventHandler(this.ToolStripConnectorButton_Click);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1080, 690);
+            this.ClientSize = new System.Drawing.Size(1620, 1035);
             this.Controls.Add(this.drawPanel);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.groupBox1);
@@ -443,6 +493,7 @@ namespace MyDrawingForm
             this.Controls.Add(this.menuStrip1);
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "MyDrawing";
             this.menuStrip1.ResumeLayout(false);
@@ -501,6 +552,9 @@ namespace MyDrawingForm
         private DataGridViewTextBoxColumn Width;
         private ToolStripButton toolStripSelectButton;
         private DoubleBufferedPanel drawPanel;
+        private ToolStripButton toolStripUndoButton;
+        private ToolStripButton toolStripRedoButton;
+        private ToolStripButton toolStripConnectorButton;
     }
 }
 

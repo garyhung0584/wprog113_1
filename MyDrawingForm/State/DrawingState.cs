@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MyDrawingForm
 {
@@ -18,8 +15,8 @@ namespace MyDrawingForm
         private static readonly Random random = new Random();
         public const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-        private float _firstPointX;
-        private float _firstPointY;
+        private int _firstPointX;
+        private int _firstPointY;
         private bool _isPressed = false;
 
         public DrawingState(PointerState pointerState)
@@ -34,9 +31,8 @@ namespace MyDrawingForm
             _hint = null;
         }
 
-        public void MouseDown(float x, float y)
+        public void MouseDown(int x, int y)
         {
-
             if (x > 0 && y > 0)
             {
                 _firstPointX = x;
@@ -46,26 +42,51 @@ namespace MyDrawingForm
             _hint = _m.shapes.GetNewShape(_m.GetDrawingMode(), "", x, y, 0, 0);
         }
 
-        public void MouseMove(float x, float y)
+        public void MouseMove(int x, int y)
         {
-            if (_isPressed && _hint != null)
+            if (_isPressed)
             {
-                _hint.Width = y - _firstPointY;
-                _hint.Height = x - _firstPointX;
+                int newWidth = x - _firstPointX;
+                int newHeight = y - _firstPointY;
+
+                if (newWidth < 0)
+                {
+                    _hint.X = x;
+                    _hint.Width = -newWidth;
+                }
+                else
+                {
+                    _hint.X = _firstPointX;
+                    _hint.Width = newWidth;
+                }
+
+                if (newHeight < 0)
+                {
+                    _hint.Y = y;
+                    _hint.Height = -newHeight;
+                }
+                else
+                {
+                    _hint.Y = _firstPointY;
+                    _hint.Height = newHeight;
+                }
+
                 _m.NotifyModelChanged();
             }
         }
-        public void MouseUp(float x, float y)
+
+        public void MouseUp(int x, int y)
         {
             _isPressed = false;
             if (_hint == null) return;
 
             _hint.Normalize();
 
-            _m.AddShape(_m.GetDrawingMode(), GenerateRandomString(5), _hint.X, _hint.Y, _hint.Height, _hint.Width);
+            _m.AddShape(_m.GetDrawingMode(), GenerateRandomString(5), _hint.X, _hint.Y, _hint.Width, _hint.Height);
             _m.EnterPointerState();
 
-            _pointerState.AddSelectedShape(_hint);
+            _pointerState.selectedShape = _hint;
+            _m.NotifyModelChanged();
         }
 
         public void OnPaint(IGraphics graphics)
@@ -78,17 +99,6 @@ namespace MyDrawingForm
             {
                 _hint.Draw(graphics);
             }
-        }
-
-
-        public void KeyDown(int keyValue)
-        {
-            // do nothing
-        }
-
-        public void KeyUp(int keyValue)
-        {
-            // do nothing
         }
 
         public static string GenerateRandomString(int length)
@@ -104,3 +114,4 @@ namespace MyDrawingForm
         }
     }
 }
+

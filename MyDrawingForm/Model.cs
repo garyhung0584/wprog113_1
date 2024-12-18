@@ -40,38 +40,27 @@ namespace MyDrawingForm
             currentState = drawingState;
         }
 
-        public void AddShape(string shape, string name, float x, float y, float height, float width)
+        public void AddShape(string shape, string name, int x, int y, int height, int width)
         {
             shapes.CreateShape(shape, name, x, y, height, width);
             SetSelectMode();
             NotifyModelChanged();
         }
 
-        public void PointerPressed(float x, float y)
+        public void PointerPressed(int x, int y)
         {
             currentState.MouseDown(x, y);
         }
 
-        public void PointerMoved(float x, float y)
+        public void PointerMoved(int x, int y)
         {
             currentState.MouseMove(x, y);
         }
 
-        public void PointerReleased(float x, float y)
+        public void PointerReleased(int x, int y)
         {
             currentState.MouseUp(x, y);
         }
-        public void KeyDown(int keyValue)
-        {
-            // 注意：同一個鍵持續按著不放會自動Auto repeat
-            currentState.KeyDown(keyValue);
-        }
-
-        public void KeyUp(int keyValue)
-        {
-            currentState.KeyUp(keyValue);
-        }
-
         public void Draw(IGraphics graphics)
         {
             currentState.OnPaint(graphics);

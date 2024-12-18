@@ -24,10 +24,8 @@ namespace MyDrawingForm
         private string _text;
         private string _x;
         private string _y;
-        private string _height;
         private string _width;
-
-
+        private string _height;
 
         private Cursor _cursor;
 
@@ -138,11 +136,11 @@ namespace MyDrawingForm
                 }
             }
         }
-        public Color HeightLabelColor
+        public Color WidthLabelColor
         {
             get
             {
-                if (!IsHeightValid())
+                if (!IsWidthValid())
                 {
                     return Color.Red;
                 }
@@ -152,11 +150,11 @@ namespace MyDrawingForm
                 }
             }
         }
-        public Color WidthLabelColor
+        public Color HeightLabelColor
         {
             get
             {
-                if (!IsWidthValid())
+                if (!IsHeightValid())
                 {
                     return Color.Red;
                 }
@@ -173,7 +171,6 @@ namespace MyDrawingForm
                 return _cursor;
             }
         }
-
 
         public void SetStartMode()
         {
@@ -194,6 +191,21 @@ namespace MyDrawingForm
         public void SetSelectMode()
         {
             _model.SetSelectMode();
+        }
+
+        public void SetConnectorMode()
+        {
+            //_model.SetConnectorMode();
+        }
+
+        public void Undo()
+        {
+            //_model.Undo();
+        }
+
+        public void Redo()
+        {
+            //_model.Redo();
         }
 
         public void UpdateState()
@@ -231,15 +243,14 @@ namespace MyDrawingForm
             _y = y;
             CreateBlockChanged();
         }
-        public void HeightTextBoxTextChanged(string height)
-        {
-            _height = height;
-            CreateBlockChanged();
-        }
-
         public void WidthTextBoxTextChanged(string width)
         {
             _width = width;
+            CreateBlockChanged();
+        }
+        public void HeightTextBoxTextChanged(string height)
+        {
+            _height = height;
             CreateBlockChanged();
         }
         public void ShapeAddComboBoxSelectedIndexChanged(string shape)
@@ -280,18 +291,6 @@ namespace MyDrawingForm
             }
         }
 
-        public bool IsHeightValid()
-        {
-            try
-            {
-                int height = Convert.ToInt32(_height);
-                return height > 0;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
         public bool IsWidthValid()
         {
             try
@@ -304,10 +303,22 @@ namespace MyDrawingForm
                 return false;
             }
         }
+        public bool IsHeightValid()
+        {
+            try
+            {
+                int height = Convert.ToInt32(_height);
+                return height > 0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
 
         public void CreateBlockChanged()
         {
-            if (IsNameValid() && IsShapeValid() && IsXValid() && IsYValid() && IsHeightValid() && IsWidthValid())
+            if (IsNameValid() && IsShapeValid() && IsXValid() && IsYValid() && IsWidthValid() && IsHeightValid())
             {
                 _isCreateEnabled = true;
             }

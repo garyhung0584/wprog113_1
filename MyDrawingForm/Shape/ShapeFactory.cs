@@ -8,29 +8,28 @@ namespace MyDrawingForm
 {
     internal class ShapeFactory
     {
-        public Shape Create(string shape, int id, string text, float x, float y, float height, float width)
+        public Shape Create(string shape, int id, string text, int x, int y, int width, int height)
         {
             if (shape == "Start")
             {
-                return new Start(id, text, x, y, height, width);
+                return new Start(id, text, x, y, width, height); // 修改為 X 和 Y
             }
             else if (shape == "Terminator")
             {
-                return new Terminator(id, text, x, y, height, width);
+                return new Terminator(id, text, x, y, width, height); // 修改為 X 和 Y
             }
             else if (shape == "Process")
             {
-                return new Process(id, text, x, y, height, width);
+                return new Process(id, text, x, y, width, height);
             }
             else if (shape == "Decision")
             {
-                return new Decision(id, text, x, y, height, width);
+                return new Decision(id, text, x, y, width, height);
             }
             else
             {
                 return null;
             }
         }
-
     }
 }

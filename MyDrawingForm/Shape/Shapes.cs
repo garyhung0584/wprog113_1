@@ -16,7 +16,7 @@ namespace MyDrawingForm
         {
             return shapeList;
         }
-        public Shape GetNewShape(string shape, string name, float x, float y, float height, float width)
+        public Shape GetNewShape(string shape, string name, int x, int y, int height, int width)
         {
             int id;
             if (shapeList.Count == 0)
@@ -30,7 +30,7 @@ namespace MyDrawingForm
             return shapeFactory.Create(shape, id, name, x, y, height, width);
         }
 
-        public void CreateShape(string shape, string name, float x, float y, float height, float width)
+        public void CreateShape(string shape, string name, int x, int y, int height, int width)
         {
             shapeList.Add(GetNewShape(shape, name, x, y, height, width));
         }

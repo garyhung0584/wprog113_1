@@ -25,27 +25,26 @@ namespace MyDrawingForm
             // OnPaint時會自動清除畫面，因此不需實作
         }
 
-        public void DrawLine(double x1, double y1, double x2, double y2)
+        public void DrawLine(int x1, int y1, int x2, int y2)
         {
-            _graphics.DrawLine(_pen, (float)x1, (float)y1, (float)x2, (float)y2);
+            _graphics.DrawLine(_pen, x1, y1, x2, y2);
         }
 
-        public void DrawRectangle(float x, float y, float height, float width)
+        public void DrawRectangle(int x, int y, int width, int height)
         {
             _graphics.DrawRectangle(_pen, x, y, width, height);
         }
 
-        public void DrawEllipse(float x, float y, float height, float width)
+        public void DrawEllipse(int x, int y, int width, int height)
         {
             _graphics.DrawEllipse(_pen, x, y, width, height);
         }
 
-        public void DrawArc(float x, float y, float height, float width, float startAngle, float sweepAngle)
+        public void DrawArc(int x, int y, int width, int height, int startAngle, int sweepAngle)
         {
             try
             {
                 _graphics.DrawArc(_pen, x, y, width, height, startAngle, sweepAngle);
-
             }
             catch (Exception)
             {
@@ -53,33 +52,30 @@ namespace MyDrawingForm
             }
         }
 
-        public void DrawString(string text, float x, float y)
+        public void DrawString(string text, int x, int y)
         {
             _graphics.DrawString(text, _font, _brush, x, y);
         }
 
-        public void DrawPolygon(float x, float y, float height, float width)
+        public void DrawPolygon(int x, int y, int width, int height)
         {
             Point[] points = new Point[4];
-            points[0] = new Point((int)(x + height / 2), (int)y);
-            points[1] = new Point((int)(x + height), (int)(y + width / 2));
-            points[2] = new Point((int)(x + height / 2), (int)(y + width));
-            points[3] = new Point((int)x, (int)(y + width / 2));
+            points[0] = new Point((x + width / 2), y);
+            points[1] = new Point((x + width), (y + height / 2));
+            points[2] = new Point((x + width / 2), (y + height));
+            points[3] = new Point(x, (y + height / 2));
 
             _graphics.DrawPolygon(_pen, points);
         }
 
-        public void DrawBoundingBox(float x, float y, float height, float width)
+        public void DrawBoundingBox(int x, int y, int width, int height)
         {
             _graphics.DrawRectangle(Pens.Red, x, y, width, height);
         }
 
-        public void DrawDot(float x, float y, float height, float width)
+        public void DrawDot(int x, int y, int width, int height)
         {
-            x += (width / 2)-2.5f;
-            y -= height / 8;
-            _graphics.FillRectangle(new SolidBrush(Color.Orange), (int)x, y, 5, 5);
+            _graphics.FillRectangle(new SolidBrush(Color.Orange), x, y, width, height);
         }
-
     }
 }

@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
+﻿
 namespace MyDrawingForm
 {
     public interface IGraphics
     {
         void ClearAll();
-        void DrawLine(double x1, double y1, double x2, double y2);
-        void DrawRectangle(float x, float y, float height, float width);
-        void DrawEllipse(float x, float y, float height, float width);
-        void DrawArc(float x, float y, float height, float width, float startAngle, float sweepAngle);
-        void DrawString(string text, float x, float y);
-        void DrawPolygon(float x, float y, float height, float width);
-        void DrawBoundingBox(float x, float y, float height, float width);
-        void DrawDot(float x, float y, float height, float width);
+        void DrawLine(int x1, int y1, int x2, int y2);
+        void DrawRectangle(int x, int y, int height, int width);
+        void DrawEllipse(int x, int y, int height, int width);
+        void DrawArc(int x, int y, int height, int width, int startAngle, int sweepAngle);
+        void DrawString(string text, int x, int y);
+        void DrawPolygon(int x, int y, int height, int width);
+        void DrawBoundingBox(int x, int y, int height, int width);
+        void DrawDot(int x, int y, int height, int width);
     }
 }

@@ -1,117 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyDrawingForm
 {
     internal class PointerState : IState
     {
-        Model _m;
+        private Model _m;
 
         // 紀錄選取的圖
-        public List<Shape> selectedShapes = new List<Shape>();
-        // Ctrl鍵的KeyValue
-        const int CTRL_KEY = 17;
-        // 紀錄是否按下Ctrl鍵
-        bool _isCtrlKeyDown;
+        public Shape selectedShape;
 
-        private float _prevPointX;
-        private float _prevPointY;
+        private int _prevPointX;
+        private int _prevPointY;
         private bool _isPressed = false;
         private bool _isDotPressed = false;
 
         public void Initialize(Model m)
         {
-            this._m = m;
-            // 當進入PointerState時，應該尚未選取任何形狀，因此清空selectedShapes
-            selectedShapes.Clear();
-            _isCtrlKeyDown = false;
+            this._m = m ?? throw new ArgumentNullException(nameof(m));
+            selectedShape = null;
         }
 
-        public void MouseDown(float x, float y)
+        public void MouseDown(int x, int y)
         {
             // 檢查是否有選到圖形，使用相反順序檢查，以便選到最上層的圖形
-            foreach (Shape _shape in Enumerable.Reverse(_m.GetShapes()))
+            var shapes = _m.GetShapes();
+            for (int i = shapes.Count - 1; i >= 0; i--)
             {
-                if (_shape.IsPointInShape(x, y))
+                var shape = shapes[i];
+                if (shape.IsPointInShape(x, y))
                 {
-                    if (_isCtrlKeyDown)
-                    {
-                        //若按下 Ctrl 鍵，則新增選取，Bug: 可能重複選取同一個圖形
-                        if (!selectedShapes.Contains(_shape))
-                        {
-                            selectedShapes.Add(_shape);
-                        }
-                        else
-                        {
-                            selectedShapes.Remove(_shape);
-                        }
+                    selectedShape = shape;
+                    _prevPointX = x;
+                    _prevPointY = y;
 
+                    if (shape.IsPointAtText(x, y))
+                    {
+                        _isDotPressed = true;
                     }
                     else
                     {
-                        if (selectedShapes.Contains(_shape))
-                        {
-                            if (_shape.IsPointAtText(x, y))
-                            {
-                                _isDotPressed = true;
-                            }
-                            else
-                            {
-                                _isPressed = true;
-                            }
-                            _prevPointX = x;
-                            _prevPointY = y;
-                        }
-                        else
-                        {
-                            // 若沒按下Ctrl鍵，則清空selectedShapes，再新增選取的圖形
-                            selectedShapes.Clear();
-                            AddSelectedShape(_shape);
-                        }
+                        _isPressed = true;
                     }
                     _m.NotifyModelChanged();
                     return;
                 }
             }
-            // 若沒有選到任何圖形，則清空selectedShapes，但是如果按下Ctrl鍵，則selectedShapes不變
-            if (!_isCtrlKeyDown)
-                selectedShapes.Clear();
+            selectedShape = null;
             _m.NotifyModelChanged();
         }
 
-        public void AddSelectedShape(Shape _shape)
-        {
-            if (!selectedShapes.Contains(_shape))
-            {
-                selectedShapes.Add(_shape);
-            }
-        }
-
-        public void MouseMove(float x, float y)
+        public void MouseMove(int x, int y)
         {
             if (_isPressed || _isDotPressed)
             {
-                int _displacementX = (int)x - (int)_prevPointX;
-                int _displacementY = (int)y - (int)_prevPointY;
+                int displacementX = x - _prevPointX;
+                int displacementY = y - _prevPointY;
                 if (_isPressed)
                 {
-                    foreach (Shape _shape in selectedShapes)
-                    {
-                        _shape.X += _displacementX;
-                        _shape.Y += _displacementY;
-                    }
+                    selectedShape.X += displacementX;
+                    selectedShape.Y += displacementY;
                 }
                 if (_isDotPressed)
                 {
-                    foreach (Shape _shape in selectedShapes)
-                    {
-                        _shape.TextBiasX += _displacementX;
-                        _shape.TextBiasY += _displacementY;
-                    }
+                    selectedShape.TextBiasX += displacementX;
+                    selectedShape.TextBiasY += displacementY;
                 }
                 _prevPointX = x;
                 _prevPointY = y;
@@ -119,7 +73,7 @@ namespace MyDrawingForm
             }
         }
 
-        public void MouseUp(float x, float y)
+        public void MouseUp(int x, int y)
         {
             _isPressed = false;
             _isDotPressed = false;
@@ -129,26 +83,11 @@ namespace MyDrawingForm
         {
             graphics.ClearAll();
             // 畫出所有的Shape
-            foreach (Shape _shape in _m.GetShapes())
+            foreach (var shape in _m.GetShapes())
             {
-                _shape.Draw(graphics);
+                shape.Draw(graphics);
             }
-            foreach (Shape selShape in selectedShapes)
-            {
-                selShape.DrawBoundingBox(graphics);
-            }
-        }
-
-        public void KeyDown(int keyValue)
-        {
-            if (keyValue == CTRL_KEY)
-                _isCtrlKeyDown = true;
-        }
-
-        public void KeyUp(int keyValue)
-        {
-            if (keyValue == CTRL_KEY)
-                _isCtrlKeyDown = false;
+            selectedShape?.DrawBoundingBox(graphics);
         }
     }
 }

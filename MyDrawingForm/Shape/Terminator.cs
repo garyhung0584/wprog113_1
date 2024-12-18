@@ -11,60 +11,54 @@ namespace MyDrawingForm
 {
     public class Terminator : Shape
     {
-        public Terminator(int id, string text, float x, float y, float height, float width, float textBiasX = 0, float textBiasY = 0)
-            : base("Terminator", id, text, x, y, height, width, textBiasX, textBiasY) { }
+        public Terminator(int id, string text, int x, int y, int width, int height, int textBiasX = 0, int textBiasY = 0)
+            : base("Terminator", id, text, x, y, width, height, textBiasX, textBiasY) { }
 
         public override void Draw(IGraphics graphics)
         {
-            float x = X;
-            float y = Y;
-            float width = Width;
-            float height = Height;
-            if (width < 0)
+            int width = Width;
+            int height = Height;
+            if (width < height)
             {
-                y = y + width;
-                width = width * -1;
-            }
-            if (height < 0)
-            {
-                x = x + height;
-                height = height * -1;
-            }
-            if (height < width)
-            {
-                width = height;
+                height = width;
             }
             //Left Arc
-            graphics.DrawArc(x, y, width, width, 90, 180);
+            graphics.DrawArc(X, Y, height, height, 90, 180);
             //Right Arc
-            graphics.DrawArc(x + height - (width), y, width, width, 270, 180);
+            graphics.DrawArc(X + width - height, Y, height, height, 270, 180);
             //Top Line
-            graphics.DrawLine(x + width / 2, y, x + height - (width / 2), y);
+            graphics.DrawLine(X + height / 2, Y, X + width - (height / 2), Y);
             //Bottom Line
-            graphics.DrawLine(x + width / 2, y + width, x + height - (width / 2), y + width);
+            graphics.DrawLine(X + height / 2, Y + height, X + width - (height / 2), Y + height);
 
-            graphics.DrawString(ShapeText, (x + height / 3) + TextBiasX, (y + width / 3) + TextBiasY);
+            // Center the text
+            int textX = X +width / 3 + TextBiasX;
+            int textY = Y + height / 3 + TextBiasY;
+            graphics.DrawString(ShapeText, textX, textY);
         }
 
-        public override bool IsPointInShape(float x, float y)
+        public override bool IsPointInShape(int x, int y)
         {
             GraphicsPath path = new GraphicsPath();
 
             path.StartFigure();
             path.AddArc(X, Y, Width, Width, 90, 180);
-            path.AddLine(X + Width / 2, Y, X + Height - (Width / 2), Y);
-            path.AddArc(X + Height - (Width), Y, Width, Width, 270, 180);
-            path.AddLine(X + Width / 2, Y + Width, X + Height - (Width / 2), Y + Width);
-            //path.AddRectangle(new RectangleF(X + Width / 2, Y, X + Height - (Width / 2), Width));
+            path.AddLine(X + Width / 2, Y, X + Width - (Height / 2), Y);
+            path.AddArc(X + Width - Height, Y, Height, Height, 270, 180);
+            path.AddLine(X + Height / 2, Y + Height, X + Width - (Height / 2), Y + Height);
             path.CloseFigure();
 
-            return path.IsVisible(new Point((int)x, (int)y));
+            return path.IsVisible(new Point(x, y));
         }
-        public override bool IsPointAtText(float x, float y)
+
+        public override bool IsPointAtText(int x, int y)
         {
             GraphicsPath path = new GraphicsPath();
-            path.AddRectangle(new RectangleF((X + Height / 3) + TextBiasX + 27f, ((Y + Width / 3) + TextBiasY) - 3f, 6, 6));
-            return path.IsVisible(new Point((int)x, (int)y));
+            int dotX = (X + Width / 3) + TextBiasX + (10 * ShapeText.Length) / 2 - 2;
+            int dotY = (Y + Height / 3) + TextBiasY - 5;
+            path.AddRectangle(new RectangleF(dotX, dotY, 8, 8));
+            return path.IsVisible(new Point(x, y));
         }
     }
 }
+

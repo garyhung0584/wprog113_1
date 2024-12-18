@@ -11,35 +11,39 @@ namespace MyDrawingForm
 {
     public class Decision : Shape
     {
-        public Decision(int id, string text, float x, float y, float height, float width, float textBiasX = 0, float textBiasY = 0)
-            : base("Decision", id, text, x, y, height, width, textBiasX, textBiasY) { }
+        public Decision(int id, string text, int x, int y, int width, int height, int textBiasX = 0, int textBiasY = 0)
+            : base("Decision", id, text, x, y, width, height, textBiasX, textBiasY) { }
 
         public override void Draw(IGraphics graphics)
         {
-            graphics.DrawPolygon(X, Y, Height, Width);
-            graphics.DrawString(ShapeText, (X + Height / 3) + TextBiasX, (Y + Width / 3) + TextBiasY);
+            graphics.DrawPolygon(X, Y, Width, Height);
+            int textX = X + Width / 3 + TextBiasX;
+            int textY = Y + Height / 3 + TextBiasY;
+            graphics.DrawString(ShapeText, textX, textY);
         }
 
-        public override bool IsPointInShape(float x, float y)
+        public override bool IsPointInShape(int x, int y)
         {
-
             GraphicsPath path = new GraphicsPath();
 
             Point[] points = new Point[4];
-            points[0] = new Point((int)(X + Height / 2), (int)Y);
-            points[1] = new Point((int)(X + Height), (int)(Y + Width / 2));
-            points[2] = new Point((int)(X + Height / 2), (int)(Y + Width));
-            points[3] = new Point((int)X, (int)(Y + Width / 2));
+            points[0] = new Point((X + Width / 2), Y);
+            points[1] = new Point((X + Width), (Y + Height / 2));
+            points[2] = new Point((X + Width / 2), (Y + Height));
+            points[3] = new Point(X, (Y + Height / 2));
 
             path.AddPolygon(points);
 
-            return path.IsVisible(new Point((int)x, (int)y));
+            return path.IsVisible(new Point(x, y));
         }
-        public override bool IsPointAtText(float x, float y)
+
+        public override bool IsPointAtText(int x, int y)
         {
             GraphicsPath path = new GraphicsPath();
-            path.AddRectangle(new RectangleF((X + Height / 3) + TextBiasX + 27f, ((Y + Width / 3) + TextBiasY) - 3f, 6, 6));
-            return path.IsVisible(new Point((int)x, (int)y));
+            int dotX = (X + Width / 3) + TextBiasX + (10 * ShapeText.Length) / 2 - 2;
+            int dotY = (Y + Height / 3) + TextBiasY - 5;
+            path.AddRectangle(new RectangleF(dotX, dotY, 8, 8));
+            return path.IsVisible(new Point(x, y));
         }
     }
 }
