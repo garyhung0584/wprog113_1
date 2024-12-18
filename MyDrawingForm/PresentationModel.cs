@@ -19,6 +19,9 @@ namespace MyDrawingForm
         private bool _isDecisionChecked;
         private bool _isSelectChecked;
         private bool _isCreateEnabled = false;
+        private bool _isDeleteEnabled = false;
+        private bool _isUndoEnabled = false;
+        private bool _isRedoEnabled = false;
 
         private string _shape;
         private string _text;
@@ -94,6 +97,28 @@ namespace MyDrawingForm
                 return _isSelectChecked;
             }
         }
+        public bool IsDeleteEnabled
+        {
+            get
+            {
+                return _isDeleteEnabled;
+            }
+        }
+        public bool IsUndoEnabled
+        {
+            get
+            {
+                return _isUndoEnabled;
+            }
+        }
+        public bool IsRedoEnabled
+        {
+            get
+            {
+                return _isRedoEnabled;
+            }
+        }
+
         public Color NameLabelColor
         {
             get
@@ -200,12 +225,12 @@ namespace MyDrawingForm
 
         public void Undo()
         {
-            //_model.Undo();
+            _model.Undo();
         }
 
         public void Redo()
         {
-            //_model.Redo();
+            _model.Redo();
         }
 
         public void UpdateState()
@@ -226,6 +251,9 @@ namespace MyDrawingForm
             _isProcessChecked = mode == "Process";
             _isDecisionChecked = mode == "Decision";
             _isSelectChecked = mode == "";
+
+            _isUndoEnabled = _model.commandManager.IsUndoEnabled;
+            _isRedoEnabled = _model.commandManager.IsRedoEnabled;
         }
 
         public void NameTextBoxTextChanged(string name)
@@ -331,7 +359,8 @@ namespace MyDrawingForm
 
         public void AddShape()
         {
-            _model.AddShape(_shape, _text, Convert.ToInt32(_x), Convert.ToInt32(_y), Convert.ToInt32(_width), Convert.ToInt32(_height));
+            Shape s = _model.GetShape(_shape, _text, Convert.ToInt32(_x), Convert.ToInt32(_y), Convert.ToInt32(_height), Convert.ToInt32(_width));
+            _model.AddShape(s);
         }
     }
 }

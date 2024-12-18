@@ -30,9 +30,14 @@ namespace MyDrawingForm
             return shapeFactory.Create(shape, id, name, x, y, height, width);
         }
 
-        public void CreateShape(string shape, string name, int x, int y, int height, int width)
+        public void AddShape(Shape s)
         {
-            shapeList.Add(GetNewShape(shape, name, x, y, height, width));
+            shapeList.Add(s);
+        }
+
+        public void RemoveShape(Shape s)
+        {
+            shapeList.Remove(s);
         }
     }
 }

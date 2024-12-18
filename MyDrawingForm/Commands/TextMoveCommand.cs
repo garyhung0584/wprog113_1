@@ -6,28 +6,28 @@ using System.Threading.Tasks;
 
 namespace MyDrawingForm.Commands
 {
-    class MoveCommand : ICommand
+    internal class TextMoveCommand : ICommand
     {
-        Shape shape;
+        Shape _shape;
         int _newX, _newY, _originalX, _originalY;
-        public MoveCommand(Shape s, int originalX, int originalY)
+        public TextMoveCommand(Shape s, int originalX, int originalY)
         {
-            shape = s;
-            _newX = shape.X;
-            _newY = shape.Y;
+            _shape = s;
+            _newX = s.TextBiasX;
+            _newY = s.TextBiasY;
             _originalX = originalX;
             _originalY = originalY;
         }
         public void Execute()
         {
-            shape.X = _newX;
-            shape.Y = _newY;
+            _shape.TextBiasX = _newX;
+            _shape.TextBiasY = _newY;
         }
 
         public void UnExecute()
         {
-            shape.X = _originalX;
-            shape.Y = _originalY;
+            _shape.TextBiasX = _originalX;
+            _shape.TextBiasY = _originalY;
         }
     }
 }

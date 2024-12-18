@@ -17,6 +17,7 @@ namespace MyDrawingForm
         public override void Draw(IGraphics graphics)
         {
             graphics.DrawPolygon(X, Y, Width, Height);
+
             int textX = X + Width / 3 + TextBiasX;
             int textY = Y + Height / 3 + TextBiasY;
             graphics.DrawString(ShapeText, textX, textY);
@@ -43,6 +44,7 @@ namespace MyDrawingForm
             int dotX = (X + Width / 3) + TextBiasX + (10 * ShapeText.Length) / 2 - 2;
             int dotY = (Y + Height / 3) + TextBiasY - 5;
             path.AddRectangle(new RectangleF(dotX, dotY, 8, 8));
+
             return path.IsVisible(new Point(x, y));
         }
     }

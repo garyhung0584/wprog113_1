@@ -39,7 +39,7 @@ namespace MyDrawingForm
                 _firstPointY = y;
                 _isPressed = true;
             }
-            _hint = _m.shapes.GetNewShape(_m.GetDrawingMode(), "", x, y, 0, 0);
+            _hint = _m.GetShape(_m.GetDrawingMode(), "", x, y, 0, 0);
         }
 
         public void MouseMove(int x, int y)
@@ -81,8 +81,9 @@ namespace MyDrawingForm
             if (_hint == null) return;
 
             _hint.Normalize();
+            _hint.ShapeText = GenerateRandomString(5);
+            _m.commandManager.Execute(new DrawCommand(_m, _hint));
 
-            _m.AddShape(_m.GetDrawingMode(), GenerateRandomString(5), _hint.X, _hint.Y, _hint.Width, _hint.Height);
             _m.EnterPointerState();
 
             _pointerState.selectedShape = _hint;

@@ -18,21 +18,18 @@ namespace MyDrawingForm
         {
             int width = Width;
             int height = Height;
+
             if (width < height)
             {
                 height = width;
             }
-            //Left Arc
+
             graphics.DrawArc(X, Y, height, height, 90, 180);
-            //Right Arc
             graphics.DrawArc(X + width - height, Y, height, height, 270, 180);
-            //Top Line
             graphics.DrawLine(X + height / 2, Y, X + width - (height / 2), Y);
-            //Bottom Line
             graphics.DrawLine(X + height / 2, Y + height, X + width - (height / 2), Y + height);
 
-            // Center the text
-            int textX = X +width / 3 + TextBiasX;
+            int textX = X + width / 3 + TextBiasX;
             int textY = Y + height / 3 + TextBiasY;
             graphics.DrawString(ShapeText, textX, textY);
         }
@@ -42,8 +39,8 @@ namespace MyDrawingForm
             GraphicsPath path = new GraphicsPath();
 
             path.StartFigure();
-            path.AddArc(X, Y, Width, Width, 90, 180);
-            path.AddLine(X + Width / 2, Y, X + Width - (Height / 2), Y);
+            path.AddArc(X, Y, Height, Height, 90, 180);
+            path.AddLine(X + Height / 2, Y, X + Width - (Height / 2), Y);
             path.AddArc(X + Width - Height, Y, Height, Height, 270, 180);
             path.AddLine(X + Height / 2, Y + Height, X + Width - (Height / 2), Y + Height);
             path.CloseFigure();
@@ -57,8 +54,10 @@ namespace MyDrawingForm
             int dotX = (X + Width / 3) + TextBiasX + (10 * ShapeText.Length) / 2 - 2;
             int dotY = (Y + Height / 3) + TextBiasY - 5;
             path.AddRectangle(new RectangleF(dotX, dotY, 8, 8));
+
             return path.IsVisible(new Point(x, y));
         }
     }
 }
+
 

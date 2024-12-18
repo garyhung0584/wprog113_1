@@ -8,14 +8,22 @@ namespace MyDrawingForm
 {
     internal class DrawCommand : ICommand
     {
+        Shape shape;
+        Model model;
+        public DrawCommand(Model m, Shape s)
+        {
+            model = m;
+            shape = s;
+        }
+
         public void Execute()
         {
-            // Draw the shape
+            model.AddShape(shape);
         }
         
         public void UnExecute()
         {
-            // Erase the shape
+            model.RemoveShape(shape);
         }
     }
 }

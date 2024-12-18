@@ -1,6 +1,8 @@
-﻿using System;
+﻿using MyDrawingForm.Commands;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace MyDrawingForm
 {
@@ -13,8 +15,11 @@ namespace MyDrawingForm
 
         private int _prevPointX;
         private int _prevPointY;
+        private int _originalX;
+        private int _originalY;
         private bool _isPressed = false;
         private bool _isDotPressed = false;
+        private bool _isPressedOnce = false;
 
         public void Initialize(Model m)
         {
@@ -32,16 +37,39 @@ namespace MyDrawingForm
                 if (shape.IsPointInShape(x, y))
                 {
                     selectedShape = shape;
+                    _originalX = shape.X;
+                    _originalY = shape.Y;
                     _prevPointX = x;
                     _prevPointY = y;
 
                     if (shape.IsPointAtText(x, y))
                     {
+                        if (_isPressedOnce)
+                        {
+                            TextChangeForm textChangeform = new TextChangeForm(shape.ShapeText);
+                            DialogResult r = textChangeform.ShowDialog();
+                            if (r == DialogResult.OK)
+                            {
+                                _m.commandManager.Execute(new TextChangeCommand(shape, shape.ShapeText, textChangeform.GetText()));
+                            }
+
+                            _isPressedOnce = false;
+                            _m.NotifyModelChanged();
+                            return;
+                        }
+                        else
+                        {
+                            _isPressedOnce = true;
+                        }
                         _isDotPressed = true;
+                        _originalX = shape.TextBiasX;
+                        _originalY = shape.TextBiasY;
                     }
                     else
                     {
                         _isPressed = true;
+                        _originalX = shape.X;
+                        _originalY = shape.Y;
                     }
                     _m.NotifyModelChanged();
                     return;
@@ -75,6 +103,14 @@ namespace MyDrawingForm
 
         public void MouseUp(int x, int y)
         {
+            if (_isPressed)
+            {
+                _m.commandManager.Execute(new MoveCommand(selectedShape, _originalX, _originalY));
+            }
+            if (_isDotPressed)
+            {
+                _m.commandManager.Execute(new TextMoveCommand(selectedShape, _originalX, _originalY));
+            }
             _isPressed = false;
             _isDotPressed = false;
         }

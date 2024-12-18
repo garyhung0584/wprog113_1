@@ -125,10 +125,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CommandManager.cs" />
+    <Compile Include="Commands\ConnectorCommand.cs" />
+    <Compile Include="Commands\DataGridCommand.cs" />
     <Compile Include="Commands\DrawCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\MoveCommand.cs" />
-    <Compile Include="Commands\RenameCommand.cs" />
+    <Compile Include="Commands\TextMoveCommand.cs" />
+    <Compile Include="Commands\TextChangeCommand.cs" />
+    <Compile Include="Form2PresentationModel.cs" />
+    <Compile Include="Line.cs" />
     <Compile Include="State\ConnectorState.cs" />
     <Compile Include="DoubleBufferPanel.cs">
       <SubType>Component</SubType>
@@ -155,6 +161,12 @@
     <Compile Include="Shape\Shapes.cs" />
     <Compile Include="Shape\Start.cs" />
     <Compile Include="Shape\Terminator.cs" />
+    <Compile Include="TextChangeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TextChangeForm.Designer.cs">
+      <DependentUpon>TextChangeForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -167,6 +179,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="TextChangeForm.resx">
+      <DependentUpon>TextChangeForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Shape.datasource" />
     <None Include="Properties\Settings.settings">

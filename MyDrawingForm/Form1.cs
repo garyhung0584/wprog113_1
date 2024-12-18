@@ -115,6 +115,9 @@ namespace MyDrawingForm
             toolStripDecisionButton.Checked = pModel.IsDecisionChecked;
             toolStripSelectButton.Checked = pModel.IsSelectChecked;
 
+            toolStripUndoButton.Enabled = pModel.IsUndoEnabled;
+            toolStripRedoButton.Enabled = pModel.IsRedoEnabled;
+
             ShapeDataGridView.Rows.Clear();
             shapeList = _model.GetShapes();
             foreach (Shape s in shapeList)

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,12 +16,15 @@ namespace MyDrawingForm
         public event ModelChangedEventHandler ModelChanged;
         public delegate void ModelChangedEventHandler();
 
+        public CommandManager commandManager = new CommandManager();
+
         IState pointerState;
         IState drawingState;
         public IState currentState;
 
         internal Shapes shapes = new Shapes();
         private string _mode = "";
+
 
         public Model()
         {
@@ -40,11 +45,23 @@ namespace MyDrawingForm
             currentState = drawingState;
         }
 
-        public void AddShape(string shape, string name, int x, int y, int height, int width)
+        public void AddShape(Shape s)
         {
-            shapes.CreateShape(shape, name, x, y, height, width);
+            shapes.AddShape(s);
             SetSelectMode();
             NotifyModelChanged();
+        }
+        
+        public void RemoveShape(Shape s)
+        {
+            shapes.RemoveShape(s);
+            EnterPointerState();
+            NotifyModelChanged();
+        }
+
+        public Shape GetShape(string shape, string name, int x, int y, int height, int width)
+        {
+            return shapes.GetNewShape(shape, name, x, y, height, width);
         }
 
         public void PointerPressed(int x, int y)
@@ -77,6 +94,18 @@ namespace MyDrawingForm
         {
             _mode = "";
             EnterPointerState();
+            NotifyModelChanged();
+        }
+        
+        public void Undo()
+        {
+            commandManager.Undo();
+            NotifyModelChanged();
+        }
+
+        public void Redo()
+        {
+            commandManager.Redo();
             NotifyModelChanged();
         }
 
