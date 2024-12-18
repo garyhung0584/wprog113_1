@@ -83,11 +83,11 @@ namespace MyDrawingForm.Tests
         {
             _pointerState.selectedShapes.Clear();
 
-            Shape shape =  _model.shapes.GetNewShape("Process", "test", 0, 0, 10, 10);
+            Shape shape = _model.shapes.GetNewShape("Process", "test", 0, 0, 10, 10);
             _pointerState.AddSelectedShape(shape);
-            
+
             Assert.AreEqual(_pointerState.selectedShapes.Count(), 1);
-            
+
             _pointerState.AddSelectedShape(shape);
             Assert.AreEqual(_pointerState.selectedShapes.Count(), 1);
 

@@ -39,7 +39,7 @@ namespace MyDrawingForm.Tests
         public void MouseDownTest()
         {
             // Arrange
-            float x = 10f, y = 20f;
+            int x = 10, y = 20;
 
             // Act
             _model.SetDrawingMode("Start");
@@ -55,8 +55,8 @@ namespace MyDrawingForm.Tests
             Assert.AreEqual(pState.GetField("_firstPointY"), y);
 
 
-            x = -10f;
-            y = -20f;
+            x = -10;
+            y = -20;
             _model.SetDrawingMode("Start");
             _drawingState.MouseDown(x, y);
             hintShape = pState.GetField("_hint") as Shape;
@@ -69,8 +69,8 @@ namespace MyDrawingForm.Tests
         public void MouseMoveTest()
         {
             // Arrange
-            float startX = 10f, startY = 20f;
-            float moveX = 30f, moveY = 40f;
+            int startX = 10, startY = 20;
+            int moveX = 10, moveY = 20;
 
             _model.SetDrawingMode("Start");
             _drawingState.MouseDown(startX, startY);
@@ -93,8 +93,8 @@ namespace MyDrawingForm.Tests
         public void MouseUpTest()
         {
             // Arrange
-            float startX = 10f, startY = 20f;
-            float endX = 50f, endY = 60f;
+            int startX = 10, startY = 20;
+            int endX = 10, endY = 20;
 
             _drawingState.MouseUp(endX, endY);
             _model.SetDrawingMode("Start");
@@ -121,10 +121,10 @@ namespace MyDrawingForm.Tests
 
             IGraphics graphics = new MockGraphic();
             _model.SetDrawingMode("Start");
-            _drawingState.MouseDown(10f, 20f);
-            _drawingState.MouseMove(30f, 40f);
+            _drawingState.MouseDown(10, 20);
+            _drawingState.MouseMove(30, 40);
             _drawingState.OnPaint(graphics);
-            _drawingState.MouseUp(50f, 60f);
+            _drawingState.MouseUp(50, 60);
 
             _model.AddShape("Start", "test", 10, 20, 20, 20);
             _model.AddShape("Terminator", "test", 10, 20, 20, 20);

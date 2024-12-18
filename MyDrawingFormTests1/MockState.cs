@@ -14,12 +14,12 @@ namespace MyDrawingFormTests1
     {
         Model _m;
 
-        public float mouseDownPosX;
-        public float mouseDownPosY;
-        public float mouseUpPosX;
-        public float mouseUpPosY;
-        public float mouseMovePosX;
-        public float mouseMovePosY;
+        public int mouseDownPosX;
+        public int mouseDownPosY;
+        public int mouseUpPosX;
+        public int mouseUpPosY;
+        public int mouseMovePosX;
+        public int mouseMovePosY;
         public int keyDownValue;
         public int keyUpValue;
 
@@ -34,18 +34,18 @@ namespace MyDrawingFormTests1
             this._m = m;
         }
 
-        public void MouseDown(float x, float y)
+        public void MouseDown(int x, int y)
         {
             mouseDownPosX = x;
             mouseDownPosY = y;
         }
 
-        public void MouseMove(float x, float y)
+        public void MouseMove(int x, int y)
         {
             mouseMovePosX = x;
             mouseMovePosY = y;
         }
-        public void MouseUp(float x, float y)
+        public void MouseUp(int x, int y)
         {
             mouseUpPosX = x;
             mouseUpPosY = y;

@@ -50,7 +50,7 @@ namespace MyDrawingForm.Tests
             var eventRaised = false;
             pModel.PropertyChanged += (sender, e) =>
             {
-                    eventRaised = true;
+                eventRaised = true;
             };
 
             Assert.IsFalse(eventRaised);
@@ -68,11 +68,9 @@ namespace MyDrawingForm.Tests
             Assert.AreEqual(pModel.CurrentCursor, System.Windows.Forms.Cursors.Default);
         }
 
-
         [TestMethod()]
         public void SetStartModeTest()
         {
-
             // Act
             pModel.SetStartMode();
 
@@ -120,7 +118,6 @@ namespace MyDrawingForm.Tests
             Assert.AreEqual(model.GetDrawingMode(), "");
         }
 
-
         [TestMethod()]
         public void UpdateStateTest()
         {
@@ -133,7 +130,6 @@ namespace MyDrawingForm.Tests
             pModel.UpdateState();
 
             Assert.IsTrue(pModel.IsDecisionChecked);
-
         }
 
         [TestMethod()]
@@ -149,7 +145,6 @@ namespace MyDrawingForm.Tests
 
             pModel.NameTextBoxTextChanged("");
             Assert.IsFalse(pModel.IsNameValid());
-
         }
 
         [TestMethod()]

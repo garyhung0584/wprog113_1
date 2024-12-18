@@ -13,7 +13,6 @@ namespace MyDrawingForm.Tests
     [TestClass()]
     public class ModelTests
     {
-
         public Model model;
 
         [TestInitialize]
@@ -34,7 +33,6 @@ namespace MyDrawingForm.Tests
         [TestMethod()]
         public void EnterDrawingStateTest()
         {
-
             // Act
             model.SetDrawingMode("Start");
 
@@ -45,38 +43,33 @@ namespace MyDrawingForm.Tests
         [TestMethod()]
         public void AddShapeTest()
         {
-            // Arrange
-            Model model = new Model();
-
             // Act
-            model.AddShape("Start", "test", 0, 0, 10, 20);
+            model.AddShape(model.GetShape("Start", "test", 0, 0, 10, 20));
 
             // Assert
             var shapes = model.GetShapes();
             Assert.AreEqual(1, shapes.Count);
             Assert.AreEqual("", model.GetDrawingMode());
 
-            model.AddShape("Terminator", "test", 0, 0, 10, 20);
+            model.AddShape(model.GetShape("Terminator", "test", 0, 0, 10, 20));
 
             shapes = model.GetShapes();
             Assert.AreEqual(2, shapes.Count);
 
-            model.AddShape("Process", "test", 0, 0, 10, 20);
+            model.AddShape(model.GetShape("Process", "test", 0, 0, 10, 20));
 
             shapes = model.GetShapes();
             Assert.AreEqual(3, shapes.Count);
 
-            model.AddShape("Decision", "test", 0, 0, 10, 20);
+            model.AddShape(model.GetShape("Decision", "test", 0, 0, 10, 20));
 
             shapes = model.GetShapes();
             Assert.AreEqual(4, shapes.Count);
         }
 
-
         [TestMethod()]
         public void PointerPressedTest()
         {
-
             IState mockState = new MockState();
             mockState.Initialize(model);
             model.currentState = mockState;
@@ -101,14 +94,11 @@ namespace MyDrawingForm.Tests
 
             Assert.AreEqual(state.mouseMovePosX, 3);
             Assert.AreEqual(state.mouseMovePosY, 4);
-
         }
 
         [TestMethod()]
         public void PointerReleasedTest()
         {
-            // Arrange
-            Model model = new Model();
             IState mockState = new MockState();
             mockState.Initialize(model);
             model.currentState = mockState;
@@ -119,7 +109,6 @@ namespace MyDrawingForm.Tests
 
             Assert.AreEqual(state.mouseUpPosX, 5);
             Assert.AreEqual(state.mouseUpPosY, 6);
-
         }
 
         [TestMethod()]
@@ -129,12 +118,10 @@ namespace MyDrawingForm.Tests
             mockState.Initialize(model);
             model.currentState = mockState;
 
-            model.KeyDown(17);
 
             MockState state = (MockState)model.currentState;
 
             Assert.AreEqual(state.keyDownValue, 17);
-
         }
 
         [TestMethod()]
@@ -144,12 +131,10 @@ namespace MyDrawingForm.Tests
             mockState.Initialize(model);
             model.currentState = mockState;
 
-            model.KeyUp(18);
 
             MockState state = (MockState)model.currentState;
 
             Assert.AreEqual(state.keyUpValue, 18);
-
         }
 
         [TestMethod()]
@@ -162,7 +147,6 @@ namespace MyDrawingForm.Tests
 
             model.Draw(graphics);
 
-
             MockState state = (MockState)model.currentState;
 
             Assert.IsTrue(state.isOnPaintCalled);
@@ -171,7 +155,6 @@ namespace MyDrawingForm.Tests
         [TestMethod()]
         public void SetDrawingModeTest()
         {
-
             // Act
             model.SetDrawingMode("Start");
 
@@ -182,7 +165,6 @@ namespace MyDrawingForm.Tests
         [TestMethod()]
         public void SetSelectModeTest()
         {
-
             // Act
             model.SetSelectMode();
 
@@ -193,7 +175,6 @@ namespace MyDrawingForm.Tests
         [TestMethod()]
         public void GetDrawingModeTest()
         {
-
             // Act
             model.SetDrawingMode("Start");
 
@@ -204,12 +185,8 @@ namespace MyDrawingForm.Tests
         [TestMethod()]
         public void GetShapesTest()
         {
-
-            // Arrange
-            Model model = new Model();
-
             // Act
-            model.AddShape("Terminator", "test", 0, 0, 10, 20);
+            model.AddShape(model.GetShape("Terminator", "test", 0, 0, 10, 20));
 
             // Assert
             Assert.AreEqual(1, model.GetShapes().Count());
@@ -218,9 +195,8 @@ namespace MyDrawingForm.Tests
         [TestMethod()]
         public void NotifyModelChangedTest()
         {
-            bool isNotified;
+            bool isNotified = false;
             model.ModelChanged += () => { isNotified = true; };
-            isNotified = false;
 
             // Act
             model.NotifyModelChanged();
