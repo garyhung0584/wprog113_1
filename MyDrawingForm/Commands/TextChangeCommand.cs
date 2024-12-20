@@ -11,10 +11,10 @@ namespace MyDrawingForm.Commands
         Shape _shape;
         string _originalText;
         string _newText;
-        public TextChangeCommand(Shape s, string originalText, string newText)
+        public TextChangeCommand(Shape s, string newText)
         {
             _shape = s;
-            _originalText = originalText;
+            _originalText = s.ShapeText;
             _newText = newText;
         }
 

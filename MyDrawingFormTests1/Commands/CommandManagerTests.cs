@@ -4,24 +4,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MyDrawingForm.Tests
 {
-    // Mock ICommand implementation for testing
-    public class MockCommand : ICommand
-    {
-        public bool Executed { get; private set; } = false;
-        public bool UnExecuted { get; private set; } = false;
-
-        public void Execute()
-        {
-            Executed = true;
-            UnExecuted = false;
-        }
-
-        public void UnExecute()
-        {
-            UnExecuted = true;
-            Executed = false;
-        }
-    }
 
     [TestClass]
     public class CommandManagerTests
@@ -97,5 +79,6 @@ namespace MyDrawingForm.Tests
             // Act
             commandManager.Redo();
         }
+
     }
 }

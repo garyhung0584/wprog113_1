@@ -1,12 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MyDrawingForm;
 using MyDrawingFormTests1;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyDrawingForm.Tests
 {
@@ -26,18 +20,30 @@ namespace MyDrawingForm.Tests
         {
             model.EnterPointerState();
 
-            // Assert
             Assert.AreEqual("", model.GetDrawingMode());
         }
 
         [TestMethod()]
         public void EnterDrawingStateTest()
         {
-            // Act
             model.SetDrawingMode("Start");
 
-            // Assert
             Assert.AreEqual("Start", model.GetDrawingMode());
+        }
+
+        [TestMethod()]
+        public void EnterConnectorStateTest()
+        {
+            model.SetConnectorMode();
+
+            Assert.AreEqual("", model.GetDrawingMode());
+
+            Shape shape = model.GetShape("Start", "test", 0, 0, 10, 20);
+            model.AddShape(shape);
+            model.AddShape(shape);
+
+            model.SetConnectorMode();
+            Assert.AreEqual("Connector", model.GetDrawingMode());
         }
 
         [TestMethod()]
@@ -46,7 +52,6 @@ namespace MyDrawingForm.Tests
             // Act
             model.AddShape(model.GetShape("Start", "test", 0, 0, 10, 20));
 
-            // Assert
             var shapes = model.GetShapes();
             Assert.AreEqual(1, shapes.Count);
             Assert.AreEqual("", model.GetDrawingMode());
@@ -55,16 +60,89 @@ namespace MyDrawingForm.Tests
 
             shapes = model.GetShapes();
             Assert.AreEqual(2, shapes.Count);
+        }
 
-            model.AddShape(model.GetShape("Process", "test", 0, 0, 10, 20));
+        [TestMethod()]
+        public void RemoveShapeTest()
+        {
+            Shape shape = model.GetShape("Start", "test", 0, 0, 10, 20);
+            model.AddShape(shape);
+
+            var shapes = model.GetShapes();
+            Assert.AreEqual(1, shapes.Count);
+
+            model.RemoveShape(shape);
 
             shapes = model.GetShapes();
-            Assert.AreEqual(3, shapes.Count);
+            Assert.AreEqual(0, shapes.Count);
+        }
 
-            model.AddShape(model.GetShape("Decision", "test", 0, 0, 10, 20));
+        [TestMethod()]
+        public void DataGridRemoveShapeTest()
+        {
+            Shape shape = model.GetShape("Start", "test", 0, 0, 10, 20);
+            model.AddShape(shape);
+
+            var shapes = model.GetShapes();
+            Assert.AreEqual(1, shapes.Count);
+
+            model.DataGridRemoveShape(shape);
 
             shapes = model.GetShapes();
-            Assert.AreEqual(4, shapes.Count);
+            Assert.AreEqual(0, shapes.Count);
+        }
+
+        [TestMethod()]
+        public void GetShapeTest()
+        {
+            Shape shape = model.GetShape("Start", "test", 0, 0, 10, 20);
+            Assert.AreEqual("Start", shape.ShapeName);
+            Assert.AreEqual("test", shape.ShapeText);
+            Assert.AreEqual(0, shape.X);
+            Assert.AreEqual(0, shape.Y);
+            Assert.AreEqual(10, shape.Width);
+            Assert.AreEqual(20, shape.Height);
+        }
+
+        [TestMethod()]
+        public void GetLinesTest()
+        {
+            Shape shape1 = model.GetShape("Start", "test", 0, 0, 10, 20);
+            Shape shape2 = model.GetShape("Start", "test", 0, 0, 10, 20);
+            model.AddShape(shape1);
+            model.AddShape(shape2);
+            Line line = new Line(shape1, shape2, 1, 1);
+            model.AddLine(line);
+            var lines = model.GetLines();
+            Assert.AreEqual(1, lines.Count);
+        }
+
+        [TestMethod()]
+        public void AddLineTest()
+        {
+            Shape shape1 = model.GetShape("Start", "test", 0, 0, 10, 20);
+            Shape shape2 = model.GetShape("Start", "test", 0, 0, 10, 20);
+            model.AddShape(shape1);
+            model.AddShape(shape2);
+            Line line = new Line(shape1, shape2, 1, 1);
+            model.AddLine(line);
+            var lines = model.GetLines();
+            Assert.AreEqual(1, lines.Count);
+        }
+
+        [TestMethod()]
+        public void RemoveLineTest()
+        {
+            Shape shape1 = model.GetShape("Start", "test", 0, 0, 10, 20);
+            Shape shape2 = model.GetShape("Start", "test", 0, 0, 10, 20);
+            model.AddShape(shape1);
+            model.AddShape(shape2);
+            Line line = new Line(shape1, shape2, 1, 1);
+            model.AddLine(line);
+            var lines = model.GetLines();
+            Assert.AreEqual(1, lines.Count);
+            model.RemoveLine(line);
+            Assert.AreEqual(0, lines.Count);
         }
 
         [TestMethod()]
@@ -112,32 +190,6 @@ namespace MyDrawingForm.Tests
         }
 
         [TestMethod()]
-        public void KeyDownTest()
-        {
-            IState mockState = new MockState();
-            mockState.Initialize(model);
-            model.currentState = mockState;
-
-
-            MockState state = (MockState)model.currentState;
-
-            Assert.AreEqual(state.keyDownValue, 17);
-        }
-
-        [TestMethod()]
-        public void KeyUpTest()
-        {
-            IState mockState = new MockState();
-            mockState.Initialize(model);
-            model.currentState = mockState;
-
-
-            MockState state = (MockState)model.currentState;
-
-            Assert.AreEqual(state.keyUpValue, 18);
-        }
-
-        [TestMethod()]
         public void DrawTest()
         {
             IState mockState = new MockState();
@@ -155,41 +207,75 @@ namespace MyDrawingForm.Tests
         [TestMethod()]
         public void SetDrawingModeTest()
         {
-            // Act
             model.SetDrawingMode("Start");
 
-            // Assert
             Assert.AreEqual("Start", model.GetDrawingMode());
         }
 
         [TestMethod()]
         public void SetSelectModeTest()
         {
-            // Act
             model.SetSelectMode();
 
-            // Assert
             Assert.AreEqual("", model.GetDrawingMode());
+        }
+
+        [TestMethod()]
+        public void SetConnectorModeTest()
+        {
+            model.SetConnectorMode();
+
+            Assert.AreEqual("", model.GetDrawingMode());
+
+            Shape shape = model.GetShape("Start", "test", 0, 0, 10, 20);
+            model.AddShape(shape);
+            model.AddShape(shape);
+            model.SetConnectorMode();
+            Assert.AreEqual("Connector", model.GetDrawingMode());
+        }
+
+        [TestMethod()]
+        public void UndoTest()
+        {
+            Shape shape = model.GetShape("Start", "test", 0, 0, 10, 20);
+            model.AddShape(shape);
+            Assert.AreEqual(1, model.GetShapes().Count);
+            model.DataGridRemoveShape(shape);
+            Assert.AreEqual(0, model.GetShapes().Count);
+            model.Undo();
+            Assert.AreEqual(1, model.GetShapes().Count);
+            model.Redo();
+            Assert.AreEqual(0, model.GetShapes().Count);
+        }
+
+        [TestMethod()]
+        public void RedoTest()
+        {
+            Shape shape = model.GetShape("Start", "test", 0, 0, 10, 20);
+            model.AddShape(shape);
+            Assert.AreEqual(1, model.GetShapes().Count);
+            model.DataGridRemoveShape(shape);
+            Assert.AreEqual(0, model.GetShapes().Count);
+            model.Undo();
+            Assert.AreEqual(1, model.GetShapes().Count);
+            model.Redo();
+            Assert.AreEqual(0, model.GetShapes().Count);
         }
 
         [TestMethod()]
         public void GetDrawingModeTest()
         {
-            // Act
             model.SetDrawingMode("Start");
 
-            // Assert
             Assert.AreEqual("Start", model.GetDrawingMode());
         }
 
         [TestMethod()]
         public void GetShapesTest()
         {
-            // Act
             model.AddShape(model.GetShape("Terminator", "test", 0, 0, 10, 20));
 
-            // Assert
-            Assert.AreEqual(1, model.GetShapes().Count());
+            Assert.AreEqual(1, model.GetShapes().Count);
         }
 
         [TestMethod()]
@@ -198,7 +284,6 @@ namespace MyDrawingForm.Tests
             bool isNotified = false;
             model.ModelChanged += () => { isNotified = true; };
 
-            // Act
             model.NotifyModelChanged();
 
             Assert.IsTrue(isNotified);

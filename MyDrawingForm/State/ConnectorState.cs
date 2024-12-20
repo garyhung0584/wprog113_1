@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace MyDrawingForm
 {
-    internal class ConnectorState : IState
+    public class ConnectorState : IState
     {
         Model _m;
 
@@ -21,8 +21,12 @@ namespace MyDrawingForm
 
         public void Initialize(Model m)
         {
-            this._m = m;
-            if(_m.GetShapes().Count() <= 1)
+            _m = m;
+            _hint = null;
+            shape1 = null;
+            shape2 = null;
+            onShape = null;
+            if (_m.GetShapes().Count() <= 1)
             {
                 _m.SetSelectMode();
                 _m.NotifyModelChanged();
@@ -43,6 +47,7 @@ namespace MyDrawingForm
             _hint?.DrawHint(graphics);
             onShape?.DrawConnector(graphics);
         }
+
         public void MouseDown(int x, int y)
         {
             var shapes = _m.GetShapes();
@@ -61,32 +66,31 @@ namespace MyDrawingForm
                         _hint.X2 = x;
                         _hint.Y2 = y;
                     }
-
                     if (shape1 == null)
                     {
                         shape1 = shape;
                         _connector1 = _connector;
+                        return;
                     }
-                    else if (shape2 == null)
+                    if (shape1 != shape)
                     {
-                        if (shape1 != shape)
-                        {
-                            shape2 = shape;
-                            _connector2 = _connector;
-                            var line = new Line(shape1, shape2, _connector1, _connector2);
-                            _m.commandManager.Execute(new ConnectorCommand(_m, line));
+                        shape2 = shape;
+                        _connector2 = _connector;
+                        var line = new Line(shape1, shape, _connector1, _connector);
+                        _m.commandManager.Execute(new ConnectorCommand(_m, line));
 
-                            _hint = null;
-                            shape1 = null;
-                            shape2 = null;
+                        _hint = null;
+                        shape1 = null;
 
-                            _m.SetSelectMode();
-                            _m.NotifyModelChanged();
-                            return;
-                        }
+                        _m.SetSelectMode();
+                        _m.NotifyModelChanged();
+                        return;
                     }
                 }
             }
+            _hint = null;
+            shape1 = null;
+            shape2 = null;
             _m.NotifyModelChanged();
         }
 

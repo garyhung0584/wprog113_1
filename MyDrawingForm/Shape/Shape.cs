@@ -55,25 +55,6 @@ namespace MyDrawingForm
         
         public abstract int GetConnectorNumber(int x, int y);
 
-        public List<int> GetConnectorLocation(int connectorNumber)
-        {
-            const int connectorSize = 8;
-            const int halfConnectorSize = connectorSize / 2;
-
-            switch (connectorNumber)
-            {
-                case 1: // 上方連接器
-                    return new List<int> { (X + Width / 2) - halfConnectorSize, Y - halfConnectorSize };
-                case 2: // 左方連接器
-                    return new List<int> { X - halfConnectorSize, (Y + Height / 2) - halfConnectorSize };
-                case 3: // 下方連接器
-                    return new List<int> { (X + Width / 2) - halfConnectorSize, (Y + Height) - halfConnectorSize };
-                case 4: // 右方連接器
-                    return new List<int> { (X + Width) - halfConnectorSize, (Y + Height / 2) - halfConnectorSize };
-                default:
-                    throw new ArgumentException("Invalid connector number");
-            }
-        }
 
         public void Normalize()
         {

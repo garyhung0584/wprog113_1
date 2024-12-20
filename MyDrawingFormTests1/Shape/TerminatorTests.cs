@@ -12,44 +12,42 @@ namespace MyDrawingForm.Tests
     [TestClass()]
     public class TerminatorTests
     {
-        [TestMethod()]
-        public void TerminatorTest()
-        {
-            Shape shape = new Terminator(0, "test", 0, 0, 10, 10);
-            Assert.AreEqual(0, shape.ShapeId);
-            Assert.AreEqual("test", shape.ShapeText);
-            Assert.AreEqual(0, shape.X);
-            Assert.AreEqual(0, shape.Y);
-            Assert.AreEqual(10, shape.Height);
-            Assert.AreEqual(10, shape.Width);
-        }
+        Shape shape = new Terminator(1, "test", 10, 10, 100, 100);
+
 
         [TestMethod()]
         public void DrawTest()
         {
             IGraphics graphics = new MockGraphic();
-            Shape shape = new Terminator(0, "test", 0, 0, 10, 10);
+
             shape.Draw(graphics);
 
-            shape = new Terminator(0, "test", 0, 0, -10, -10);
-            shape.Draw(graphics);
-
+            Shape badShape = new Terminator(1, "test", 10, 10, 50, 100);
+            badShape.Draw(graphics);
         }
 
         [TestMethod()]
         public void IsPointInShapeTest()
         {
-            Shape shape = new Terminator(0, "test", 0, 0, 10, 10);
-            Assert.AreEqual(true, shape.IsPointInShape(5, 5));
-            Assert.AreEqual(false, shape.IsPointInShape(100,100));
+            Assert.IsTrue(shape.IsPointInShape(60, 45));
+            Assert.IsFalse(shape.IsPointInShape(5, 10));
         }
 
         [TestMethod()]
         public void IsPointAtTextTest()
         {
-            Shape shape = new Terminator(0, "test", 100, 100, 100, 100);
-            Assert.AreEqual(true, shape.IsPointAtText(162, 134));
-            Assert.AreEqual(false, shape.IsPointAtText(100, 100));
+            Assert.IsTrue(shape.IsPointAtText(64, 40));
+            Assert.IsFalse(shape.IsPointAtText(5, 10));
+        }
+
+        [TestMethod()]
+        public void GetConnectorNumberTest()
+        {
+            Assert.AreEqual(1, shape.GetConnectorNumber(60, 10));
+            Assert.AreEqual(2, shape.GetConnectorNumber(10, 60));
+            Assert.AreEqual(3, shape.GetConnectorNumber(60, 110));
+            Assert.AreEqual(4, shape.GetConnectorNumber(110, 60));
+            Assert.AreEqual(-1, shape.GetConnectorNumber(0, 0));
         }
     }
 }

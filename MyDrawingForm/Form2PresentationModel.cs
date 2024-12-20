@@ -2,7 +2,7 @@
 
 namespace MyDrawingForm
 {
-    internal class Form2PresentationModel : INotifyPropertyChanged
+    public class Form2PresentationModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public bool IsConfirmEnabled { get; set; }

@@ -27,6 +27,7 @@ namespace MyDrawingForm
             GraphicsPath path = new GraphicsPath();
             path.AddEllipse(new Rectangle(X, Y, Width, Height));
 
+
             return path.IsVisible(new Point(x, y));
         }
 
@@ -36,7 +37,7 @@ namespace MyDrawingForm
             int dotX = (X + Width / 3) + TextBiasX + (10 * ShapeText.Length) / 2 - 2;
             int dotY = (Y + Height / 3) + TextBiasY - 5;
             path.AddRectangle(new RectangleF(dotX, dotY, 8, 8));
-
+            Console.WriteLine("x: " + x + " y: " + y);
             return path.IsVisible(new Point(x, y));
         }
 
@@ -45,36 +46,32 @@ namespace MyDrawingForm
             const int connectorSize = 8;
             const int halfConnectorSize = connectorSize / 2;
 
-            // 上方連接器
             Rectangle topConnector = new Rectangle((X + Width / 2) - halfConnectorSize, Y - halfConnectorSize, connectorSize, connectorSize);
-            // 左方連接器
             Rectangle leftConnector = new Rectangle(X - halfConnectorSize, (Y + Height / 2) - halfConnectorSize, connectorSize, connectorSize);
-            // 下方連接器
             Rectangle bottomConnector = new Rectangle((X + Width / 2) - halfConnectorSize, (Y + Height) - halfConnectorSize, connectorSize, connectorSize);
-            // 右方連接器
             Rectangle rightConnector = new Rectangle((X + Width) - halfConnectorSize, (Y + Height / 2) - halfConnectorSize, connectorSize, connectorSize);
 
             Point point = new Point(x, y);
 
             if (topConnector.Contains(point))
             {
-                return 1; // 上方連接器
+                return 1;
             }
             else if (leftConnector.Contains(point))
             {
-                return 2; // 左方連接器
+                return 2;
             }
             else if (bottomConnector.Contains(point))
             {
-                return 3; // 下方連接器
+                return 3;
             }
             else if (rightConnector.Contains(point))
             {
-                return 4; // 右方連接器
+                return 4;
             }
             else
             {
-                return -1; // 不在任何連接器上
+                return -1;
             }
         }
     }

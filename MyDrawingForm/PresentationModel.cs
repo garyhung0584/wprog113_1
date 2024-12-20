@@ -49,7 +49,7 @@ namespace MyDrawingForm
             _model.ModelChanged += UpdateState;
         }
 
-        private void Notify(string propertyName)
+        public void Notify(string propertyName)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));

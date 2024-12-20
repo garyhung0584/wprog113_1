@@ -10,7 +10,6 @@ namespace MyDrawingFormTests1
 {
     class MockGraphic : IGraphics
     {
-
         public MockGraphic()
         {
         }

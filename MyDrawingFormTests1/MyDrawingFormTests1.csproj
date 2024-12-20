@@ -52,17 +52,30 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Commands\CommandManagerTests.cs" />
+    <Compile Include="Commands\ConnectorCommandTests.cs" />
+    <Compile Include="Commands\DataGridCommandTests.cs" />
+    <Compile Include="Commands\DrawCommandTests.cs" />
+    <Compile Include="Commands\MockCommand.cs" />
+    <Compile Include="Commands\MoveCommandTests.cs" />
+    <Compile Include="Commands\TextChangeCommandTests.cs" />
+    <Compile Include="Commands\TextMoveCommandTests.cs" />
+    <Compile Include="Form2PresentationModelTests.cs" />
+    <Compile Include="LineHintTests.cs" />
+    <Compile Include="LineTests.cs" />
     <Compile Include="MockGraphic.cs" />
+    <Compile Include="MockService.cs" />
     <Compile Include="MockState.cs" />
     <Compile Include="ModelTests.cs" />
     <Compile Include="PresentationModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ShapeFactoryTests.cs" />
+    <Compile Include="Shape\ShapeFactoryTests.cs" />
     <Compile Include="Shape\DecisionTests.cs" />
     <Compile Include="Shape\ProcessTests.cs" />
     <Compile Include="Shape\ShapeTests.cs" />
     <Compile Include="Shape\StartTests.cs" />
     <Compile Include="Shape\TerminatorTests.cs" />
+    <Compile Include="State\ConnectorStateTests.cs" />
     <Compile Include="State\DrawingStateTests.cs" />
     <Compile Include="State\PointerStateTests.cs" />
   </ItemGroup>

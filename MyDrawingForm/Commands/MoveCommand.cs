@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyDrawingForm.Commands
 {
-    class MoveCommand : ICommand
+    internal class MoveCommand : ICommand
     {
         Shape shape;
         int _newX, _newY, _originalX, _originalY;

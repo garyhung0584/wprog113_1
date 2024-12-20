@@ -54,18 +54,6 @@ namespace MyDrawingFormTests1
         public void OnPaint(IGraphics graphics)
         {
             isOnPaintCalled = true;
-
-        }
-
-
-        public void KeyDown(int keyValue)
-        {
-            keyDownValue = keyValue;
-        }
-
-        public void KeyUp(int keyValue)
-        {
-            keyUpValue = keyValue;
         }
     }
 }

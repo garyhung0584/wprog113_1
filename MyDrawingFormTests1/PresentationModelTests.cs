@@ -1,11 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MyDrawingForm;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyDrawingForm.Tests
 {
@@ -14,12 +9,16 @@ namespace MyDrawingForm.Tests
     {
         public Model model;
         public PresentationModel pModel;
+        public PrivateObject pobj;
 
         [TestInitialize]
         public void Setup()
         {
             this.model = new Model();
             this.pModel = new PresentationModel(this.model);
+
+
+            pobj = new PrivateObject(pModel);
         }
 
         [TestMethod]
@@ -31,6 +30,10 @@ namespace MyDrawingForm.Tests
             Assert.IsFalse(pModel.IsProcessChecked);
             Assert.IsFalse(pModel.IsDecisionChecked);
             Assert.IsFalse(pModel.IsSelectChecked);
+            Assert.IsFalse(pModel.IsConnectorChecked);
+            Assert.IsFalse(pModel.IsUndoEnabled);
+            Assert.IsFalse(pModel.IsRedoEnabled);
+
         }
 
         [TestMethod()]
@@ -44,8 +47,6 @@ namespace MyDrawingForm.Tests
         [TestMethod()]
         public void NotifyTest()
         {
-            // Act
-            PrivateObject pobj = new PrivateObject(pModel);
 
             var eventRaised = false;
             pModel.PropertyChanged += (sender, e) =>
@@ -55,7 +56,7 @@ namespace MyDrawingForm.Tests
 
             Assert.IsFalse(eventRaised);
             pModel.NameTextBoxTextChanged("TestName");
-            // Assert
+
             Assert.IsNotNull(pobj.GetFieldOrProperty("PropertyChanged"));
             Assert.IsTrue(eventRaised);
         }
@@ -64,58 +65,90 @@ namespace MyDrawingForm.Tests
         public void CurrentCursorTest()
         {
             pModel.SetSelectMode();
-            // Assert
+
             Assert.AreEqual(pModel.CurrentCursor, System.Windows.Forms.Cursors.Default);
         }
 
         [TestMethod()]
         public void SetStartModeTest()
         {
-            // Act
             pModel.SetStartMode();
 
-            // Assert
             Assert.IsTrue(pModel.IsStartChecked);
         }
 
         [TestMethod()]
         public void SetTerminatorModeTest()
         {
-            // Act
             pModel.SetTerminatorMode();
 
-            // Assert
             Assert.IsTrue(pModel.IsTerminatorChecked);
         }
 
         [TestMethod()]
         public void SetProcessModeTest()
         {
-            // Act
             pModel.SetProcessMode();
 
-            // Assert
             Assert.IsTrue(pModel.IsProcessChecked);
         }
 
         [TestMethod()]
         public void SetDecisionModeTest()
         {
-            // Act
             pModel.SetDecisionMode();
 
-            // Assert
             Assert.IsTrue(pModel.IsDecisionChecked);
         }
 
         [TestMethod()]
         public void SetSelectModeTest()
         {
-            // Act
             pModel.SetSelectMode();
 
-            // Assert
             Assert.AreEqual(model.GetDrawingMode(), "");
+        }
+
+
+        [TestMethod()]
+        public void SetConnectorModeTest()
+        {
+            pModel.SetConnectorMode();
+            Assert.AreEqual("", model.GetDrawingMode());
+
+            Shape shape = model.GetShape("Start", "test", 0, 0, 10, 20);
+            model.AddShape(shape);
+            model.AddShape(shape);
+            pModel.SetConnectorMode();
+            Assert.AreEqual("Connector", model.GetDrawingMode());
+        }
+
+        [TestMethod()]
+        public void UndoTest()
+        {
+            Shape shape = model.GetShape("Start", "test", 0, 0, 10, 20);
+            model.AddShape(shape);
+            Assert.AreEqual(1, model.GetShapes().Count);
+            model.DataGridRemoveShape(shape);
+            Assert.AreEqual(0, model.GetShapes().Count);
+            pModel.Undo();
+            Assert.AreEqual(1, model.GetShapes().Count);
+            pModel.Redo();
+            Assert.AreEqual(0, model.GetShapes().Count);
+        }
+
+        [TestMethod()]
+        public void RedoTest()
+        {
+            Shape shape = model.GetShape("Start", "test", 0, 0, 10, 20);
+            model.AddShape(shape);
+            Assert.AreEqual(1, model.GetShapes().Count);
+            model.DataGridRemoveShape(shape);
+            Assert.AreEqual(0, model.GetShapes().Count);
+            pModel.Undo();
+            Assert.AreEqual(1, model.GetShapes().Count);
+            pModel.Redo();
+            Assert.AreEqual(0, model.GetShapes().Count);
         }
 
         [TestMethod()]
@@ -287,7 +320,6 @@ namespace MyDrawingForm.Tests
             pModel.ShapeAddComboBoxSelectedIndexChanged("wrong");
             Assert.IsFalse(pModel.IsCreateEnabled);
         }
-
         [TestMethod()]
         public void AddShapeTest()
         {

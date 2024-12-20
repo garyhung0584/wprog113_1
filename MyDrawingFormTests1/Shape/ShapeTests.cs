@@ -2,28 +2,38 @@
 using MyDrawingForm;
 using MyDrawingFormTests1;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyDrawingForm.Tests
 {
     [TestClass()]
     public class ShapeTests
     {
+        private Shape shape;
+        private IGraphics graphics;
+
+        [TestInitialize]
+        public void Setup()
+        {
+            shape = new Process(0, "test", 0, 0, 10, 10);
+            graphics = new MockGraphic();
+        }
+
         [TestMethod()]
         public void DrawBoundingBoxTest()
         {
-            Shape shape = new Process(0, "test", 0, 0, 10, 10);
-            IGraphics graphics = new MockGraphic();
             shape.DrawBoundingBox(graphics);
         }
 
         [TestMethod()]
+        public void DrawConnectorTest()
+        {
+            shape.DrawConnector(graphics);
+        }
+
+
+        [TestMethod()]
         public void NormalizeTest()
         {
-            Shape shape = new Process(0, "test", 0, 0, 10, 10);
             shape.Normalize();
             Assert.AreEqual(0, shape.X);
             Assert.AreEqual(0, shape.Y);

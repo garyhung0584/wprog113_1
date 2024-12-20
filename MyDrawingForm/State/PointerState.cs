@@ -1,7 +1,4 @@
 ﻿using MyDrawingForm.Commands;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace MyDrawingForm
@@ -9,6 +6,7 @@ namespace MyDrawingForm
     internal class PointerState : IState
     {
         private Model _m;
+        public TextChangeService _textChangeService;
 
         // 紀錄選取的圖
         public Shape selectedShape;
@@ -21,11 +19,14 @@ namespace MyDrawingForm
         private bool _isDotPressed = false;
         private bool _isPressedOnce = false;
 
+
         public void Initialize(Model m)
         {
-            this._m = m ?? throw new ArgumentNullException(nameof(m));
+            _m = m;
+            _textChangeService = new TextChangeService(m);
             selectedShape = null;
         }
+
 
         public void MouseDown(int x, int y)
         {
@@ -46,15 +47,8 @@ namespace MyDrawingForm
                     {
                         if (_isPressedOnce)
                         {
-                            TextChangeForm textChangeform = new TextChangeForm(shape.ShapeText);
-                            DialogResult r = textChangeform.ShowDialog();
-                            if (r == DialogResult.OK)
-                            {
-                                _m.commandManager.Execute(new TextChangeCommand(shape, shape.ShapeText, textChangeform.GetText()));
-                            }
-
+                            _textChangeService.ShowTextChangeForm(shape);
                             _isPressedOnce = false;
-                            _m.NotifyModelChanged();
                             return;
                         }
                         else
