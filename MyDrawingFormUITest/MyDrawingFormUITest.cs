@@ -9,116 +9,103 @@ using OpenQA.Selenium.Appium.Windows;
 using System;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
+using MainFormUITest;
 
-namespace MyDrawingForm
+namespace MyDrawingFormUITest
 {
 
     [TestClass]
     public class MyDrawingFormUITest
     {
-        private const string WinAppDriverUrl = "http://127.0.0.1:4723";
-        private WindowsDriver<WindowsElement> driver;
 
-        private Dictionary<string, string> _windowHandles;
+        private Robot _robot;
         private string _root = "MyDrawingForm";
-
         private string targetAppPath;
 
 
-        [TestInitialize]
-        public void Setup()
+        [TestInitialize()]
+        public void Initialize()
         {
             var projectName = "MyDrawingForm";
             string solutionPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\"));
             targetAppPath = Path.Combine(solutionPath, projectName, "bin", "Debug", "MyDrawingForm.exe");
-            Console.Write(targetAppPath);
-            var appCapabilities = new AppiumOptions();
-            appCapabilities.AddAdditionalCapability("app", targetAppPath);
-            appCapabilities.AddAdditionalCapability("platformName", "Windows");
-            appCapabilities.AddAdditionalCapability("deviceName", "WindowsPC");
-
-            driver = new WindowsDriver<WindowsElement>(new Uri(WinAppDriverUrl), appCapabilities);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
-
-            _windowHandles = new Dictionary<string, string>
-            {
-                { _root, driver.CurrentWindowHandle }
-            };
-        }
-
-        // clean up
-        public void CleanUp()
-        {
-            SwitchTo(_root);
-            driver.CloseApp();
-            driver.Dispose();
-        }
-
-        // test
-        public void SwitchTo(string formName)
-        {
-            if (_windowHandles.ContainsKey(formName))
-            {
-                driver.SwitchTo().Window(_windowHandles[formName]);
-            }
-            else
-            {
-                foreach (var windowHandle in driver.WindowHandles)
-                {
-                    driver.SwitchTo().Window(windowHandle);
-                    try
-                    {
-                        driver.FindElementByAccessibilityId(formName);
-                        _windowHandles.Add(formName, windowHandle);
-                        return;
-                    }
-                    catch
-                    {
-
-                    }
-                }
-            }
+            _robot = new Robot(targetAppPath, _root);
         }
 
         [TestMethod]
+        public void ToolStrip()
+        {
+            //ToolStripButtons();
+
+            DrawingShapes();
+            MoveShapeTest();
+        }
+
         public void ToolStripButtons()
         {
-            // Find and click the buttons
-            WindowsElement start = driver.FindElementByName("Start");
-            var terminator = driver.FindElementByName("Terminator");
-            var process = driver.FindElementByName("Process");
-            var decision = driver.FindElementByName("Decision");
+            _robot.ClickButton("Start");
+            _robot.AssertEnable("Start", true);
+            //_robot.AssertCheck("Start", "1");
+            _robot.ClickButton("Terminator");
+            _robot.ClickButton("Process");
+            _robot.ClickButton("Decision");
 
+            _robot.AssertEnable("Start", true);
+            _robot.AssertEnable("Start", true);
 
-            start.Click();
-            terminator.Click();
-            process.Click();
-            decision.Click();
             //isStartChecked = start.GetAttribute("Toggle.ToggleState");
             //Assert.AreEqual("1", isStartChecked);
         }
-        [TestMethod]
-        public void TestDrawingArea()
+        public void DrawingShapes()
         {
-            // Find and click the drawing button
-            var drawButton = driver.FindElementByName("Start");
-            drawButton.Click();
 
-            // Draw in the drawing area
-            var drawingArea = driver.FindElementByName("DrawPanel");
-            new Actions(driver)
-                .MoveToElement(drawingArea, 10, 10)
-                .ClickAndHold()
-                .MoveByOffset(100, 100)
-                .Release()
-                .Perform();
+            _robot.ClickButton("Start");
+            _robot.PanelDrag("DrawPanel", 10, 10, 100, 100);
+            UndoRedoTest();
+            //var state = new string[] { "Start", "0", "test", "10", "10", "100", "100" };
+            //_robot.AssertDataGridViewRowData("DataGridView", 0, state);
+
+            _robot.ClickButton("Terminator");
+            _robot.PanelDrag("DrawPanel", 110, 110, 150, 100);
+            UndoRedoTest();
+
+            _robot.ClickButton("Process");
+            _robot.PanelDrag("DrawPanel", 210, 210, 100, 100);
+            UndoRedoTest();
+
+            _robot.ClickButton("Decision");
+            _robot.PanelDrag("DrawPanel", 310, 310, 100, 100);
+            UndoRedoTest();
+
+            _robot.ClickButton("toolStripConnectorButton");
+            _robot.ClickAt("DrawPanel", 110, 60);
+            _robot.ClickAt("DrawPanel", 185, 110);
+            UndoRedoTest();
         }
 
-        [TestCleanup]
-        public void TearDown()
+        public void MoveShapeTest()
         {
-            CleanUp();
-            driver.Quit();
+
+            _robot.PanelDrag("DrawPanel", 55, 55, 200, 0);
+            UndoRedoTest();
+            _robot.PanelDrag("DrawPanel", 255, 55, -200, 0);
         }
+
+
+        public void UndoRedoTest()
+        {
+            //_robot.ClickButton("toolStripUndoButton");
+            //_robot.AssertEnable("toolStripRedoButton", true);
+            //_robot.ClickButton("toolStripRedoButton");
+            //_robot.AssertEnable("toolStripUndoButton", true);
+            //_robot.AssertEnable("toolStripRedoButton", false);
+        }
+
+        [TestCleanup()]
+        public void Cleanup()
+        {
+            _robot.CleanUp();
+        }
+
     }
 }

@@ -57,6 +57,8 @@ namespace MyDrawingForm
                 _connector = shape.GetConnectorNumber(x, y);
                 if (_connector != -1)
                 {
+                    Console.Write(x);
+                    Console.WriteLine(y);
                     if (_hint == null)
                     {
                         _hint = new LineHint(x, y, x, y);
