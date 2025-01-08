@@ -40,6 +40,7 @@ namespace MyDrawingFormUITest
             MoveShapeTest();
             RemoveShapeTest();
             AssertShapeTest();
+            SaveFileTest();
             EditShapeTest();
             MoveTextTest();
         }
@@ -48,28 +49,17 @@ namespace MyDrawingFormUITest
         {
             _robot.ClickButton("Start");
             _robot.AssertEnable("Start", true);
-            //_robot.AssertCheck("Start", "1");
             _robot.ClickButton("Terminator");
             _robot.ClickButton("Process");
             _robot.ClickButton("Decision");
             _robot.ClickButton("toolStripConnectorButton");
             _robot.ClickButton("toolStripSelectButton");
-
-
-            _robot.AssertEnable("Start", true);
-            _robot.AssertEnable("Start", true);
-
-            //isStartChecked = start.GetAttribute("Toggle.ToggleState");
-            //Assert.AreEqual("1", isStartChecked);
         }
         public void DrawShapeTest()
         {
-
             _robot.ClickButton("Start");
             _robot.PanelDrag("DrawPanel", 10, 10, 100, 100);
             UndoRedoTest();
-            //var state = new string[] { "Start", "0", "test", "10", "10", "100", "100" };
-            //_robot.AssertDataGridViewRowData("DataGridView", 0, state);
 
             _robot.ClickButton("Terminator");
             _robot.PanelDrag("DrawPanel", 110, 110, 150, 100);
@@ -87,6 +77,19 @@ namespace MyDrawingFormUITest
             _robot.ClickAt("DrawPanel", 110, 60);
             _robot.ClickAt("DrawPanel", 185, 110);
             UndoRedoTest();
+
+            // Assert
+            var state = new string[] { "Start", "0", "test", "10", "10", "100", "100" };
+            _robot.AssertDataGridViewRowData("DataGridView", 0, state);
+
+            state = ["Terminator", "1", "test", "110", "110", "100", "150"];
+            _robot.AssertDataGridViewRowData("DataGridView", 1, state);
+
+            state = ["Process", "2", "test", "210", "210", "100", "100"];
+            _robot.AssertDataGridViewRowData("DataGridView", 2, state);
+
+            state = ["Decision", "3", "test", "310", "310", "100", "100"];
+            _robot.AssertDataGridViewRowData("DataGridView", 3, state);
         }
 
         public void MoveShapeTest()
@@ -147,12 +150,25 @@ namespace MyDrawingFormUITest
 
             state = ["Terminator", "1", "test", "110", "110", "100", "150"];
             _robot.AssertDataGridViewRowData("DataGridView", 1, state);
-            
+
             state = ["Process", "2", "test", "210", "210", "100", "100"];
             _robot.AssertDataGridViewRowData("DataGridView", 2, state);
-            
+
             state = ["Decision", "3", "test", "310", "310", "100", "100"];
             _robot.AssertDataGridViewRowData("DataGridView", 3, state);
+        }
+
+        public void SaveFileTest()
+        {
+            _robot.AssertEnable("toolStripSaveButton", true);
+            _robot.ClickButton("toolStripSaveButton");
+            _robot.AssertEnable("toolStripSaveButton", false);
+
+            _robot.ClickButton("Save");
+            _robot.ClickButton("Yes");
+
+            Thread.Sleep(5000);
+            _robot.ClickButton("OK");
         }
 
         public void RemoveShapeTest()

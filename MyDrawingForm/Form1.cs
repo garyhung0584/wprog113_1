@@ -11,6 +11,8 @@ namespace MyDrawingForm
         PresentationModel pModel;
         List<Shape> shapeList = new List<Shape>();
 
+        private readonly Timer _autoSaveTimer;
+
         public Form1(PresentationModel presentationModel)
         {
             InitializeComponent();
@@ -22,6 +24,13 @@ namespace MyDrawingForm
             drawPanel.MouseUp += HandleCanvasPointerReleased;
             drawPanel.MouseMove += HandleCanvasPointerMoved;
             drawPanel.Paint += HandleCanvasPaint;
+
+
+
+            _autoSaveTimer = new Timer();
+            _autoSaveTimer.Interval = 30000; // 30 seconds
+            _autoSaveTimer.Tick += AutoSaveTimer_Tick;
+            _autoSaveTimer.Start();
 
 
             _model.ModelChanged += HandleModelChanged;
@@ -174,7 +183,10 @@ namespace MyDrawingForm
         {
             try
             {
-                await Task.Factory.StartNew(() => pModel.AutoSaveAsync(this.Text));
+                string title = this.Text;
+                this.Text = title+" Auto-saving...";
+                await Task.Factory.StartNew(() => pModel.AutoSaveAsync());
+                this.Text = title;
             }
             catch (Exception ex)
             {
@@ -186,10 +198,11 @@ namespace MyDrawingForm
         {
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
+                toolStripSaveButton.Enabled = false;
                 saveFileDialog.Filter = "Backup (*.bak)|*.bak|All files (*.*)|*.*";
+                saveFileDialog.FileName = "default.bak";
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    toolStripSaveButton.Enabled = false;
                     try
                     {
                         await Task.Factory.StartNew(() => pModel.SaveAsync(saveFileDialog.FileName));

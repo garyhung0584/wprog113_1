@@ -379,7 +379,7 @@ namespace MyDrawingForm
                 file.Delete();
             }
         }
-        public void AutoSaveAsync(string originalTitle)
+        public void AutoSaveAsync()
         {
             if (_model.hasChange)
             {
@@ -387,12 +387,11 @@ namespace MyDrawingForm
                 Directory.CreateDirectory(backupFolder);
 
                 string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
-                string backupFileName = $"{timestamp}_bak.p0n3";
+                string backupFileName = $"{timestamp}_bak.drawing";
                 string backupFilePath = Path.Combine(backupFolder, backupFileName);
 
                 SaveAsync(backupFilePath);
                 ManageBackupFiles(backupFolder);
-
 
             }
         }

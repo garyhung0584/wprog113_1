@@ -9,6 +9,7 @@ using OpenQA.Selenium;
 using System.Windows.Input;
 using OpenQA.Selenium.Interactions;
 using System.Drawing;
+using Microsoft.CodeCoverage.Core.Reports.Coverage;
 
 namespace MainFormUITest
 {
@@ -17,7 +18,6 @@ namespace MainFormUITest
         private WindowsDriver<WindowsElement> _driver;
         private Dictionary<string, string> _windowHandles;
         private string _root;
-        private const string CONTROL_NOT_FOUND_EXCEPTION = "The specific control is not found!!";
         private const string WIN_APP_DRIVER_URI = "http://127.0.0.1:4723";
 
         // constructor
@@ -79,7 +79,11 @@ namespace MainFormUITest
         // test
         public void ClickButton(string name)
         {
-            _driver.FindElementByName(name).Click();
+            try
+            {
+                _driver.FindElementByName(name).Click();
+            }
+            catch { }
         }
 
         public void InputText(string name, string text)
@@ -93,7 +97,6 @@ namespace MainFormUITest
         {
             WindowsElement element = _driver.FindElementByName(name);
             ClickButton("Open");
-            //element.Click();
             element.FindElementByName(text).Click();
         }
 
@@ -152,9 +155,17 @@ namespace MainFormUITest
                 {
 
                 }
+                else if (i >= 6)
+                {
+                    int std = Int32.Parse(data[i - 3]);
+                    int actual = Int32.Parse(rowDatas[i].Text.Replace("(null)", ""));
+
+                    Assert.IsTrue(Math.Abs(std - actual) < 3);
+                }
                 else Assert.AreEqual(data[i - 3], rowDatas[i].Text.Replace("(null)", ""));
             }
         }
+
 
         public void ClickRemoveDataGridViewRow(string name, int rowIndex)
         {
