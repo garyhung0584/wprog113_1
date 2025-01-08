@@ -40,6 +40,14 @@ namespace MyDrawingForm
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ShapeDataGridView = new System.Windows.Forms.DataGridView();
+            this.刪除 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Shape = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.X = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Y = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Width = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Height = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.heightTextBox = new System.Windows.Forms.TextBox();
             this.widthTextBox = new System.Windows.Forms.TextBox();
             this.yTextBox = new System.Windows.Forms.TextBox();
@@ -64,14 +72,6 @@ namespace MyDrawingForm
             this.toolStripUndoButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripRedoButton = new System.Windows.Forms.ToolStripButton();
             this.drawPanel = new MyDrawingForm.DoubleBufferedPanel();
-            this.刪除 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Shape = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.X = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Y = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Width = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Height = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ShapeDataGridView)).BeginInit();
@@ -96,7 +96,7 @@ namespace MyDrawingForm
             this.說明ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.關於ToolStripMenuItem});
             this.說明ToolStripMenuItem.Name = "說明ToolStripMenuItem";
-            this.說明ToolStripMenuItem.Size = new System.Drawing.Size(66, 50);
+            this.說明ToolStripMenuItem.Size = new System.Drawing.Size(66, 29);
             this.說明ToolStripMenuItem.Text = "說明";
             // 
             // 關於ToolStripMenuItem
@@ -175,6 +175,70 @@ namespace MyDrawingForm
             this.ShapeDataGridView.TabIndex = 17;
             this.ShapeDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ShapeDataGridView_CellContentClick);
             // 
+            // 刪除
+            // 
+            this.刪除.HeaderText = "刪除";
+            this.刪除.MinimumWidth = 8;
+            this.刪除.Name = "刪除";
+            this.刪除.ReadOnly = true;
+            this.刪除.Width = 80;
+            // 
+            // Shape
+            // 
+            this.Shape.HeaderText = "Shape";
+            this.Shape.MinimumWidth = 8;
+            this.Shape.Name = "Shape";
+            this.Shape.ReadOnly = true;
+            this.Shape.Width = 85;
+            // 
+            // ID
+            // 
+            this.ID.HeaderText = "ID";
+            this.ID.MinimumWidth = 8;
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            this.ID.Width = 62;
+            // 
+            // name
+            // 
+            this.name.HeaderText = "Text";
+            this.name.MinimumWidth = 8;
+            this.name.Name = "name";
+            this.name.ReadOnly = true;
+            this.name.Width = 75;
+            // 
+            // X
+            // 
+            this.X.HeaderText = "X";
+            this.X.MinimumWidth = 8;
+            this.X.Name = "X";
+            this.X.ReadOnly = true;
+            this.X.Width = 56;
+            // 
+            // Y
+            // 
+            this.Y.HeaderText = "Y";
+            this.Y.MinimumWidth = 8;
+            this.Y.Name = "Y";
+            this.Y.ReadOnly = true;
+            this.Y.Width = 56;
+            // 
+            // Width
+            // 
+            this.Width.HeaderText = "H";
+            this.Width.MinimumWidth = 8;
+            this.Width.Name = "Width";
+            this.Width.ReadOnly = true;
+            this.Width.Width = 56;
+            // 
+            // Height
+            // 
+            this.Height.HeaderText = "W";
+            this.Height.MinimumWidth = 8;
+            this.Height.Name = "Height";
+            this.Height.ReadOnly = true;
+            this.Height.Width = 60;
+            // 
             // heightTextBox
             // 
             this.heightTextBox.Location = new System.Drawing.Point(502, 52);
@@ -218,7 +282,7 @@ namespace MyDrawingForm
             this.HLabel.Location = new System.Drawing.Point(514, 33);
             this.HLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.HLabel.Name = "HLabel";
-            this.HLabel.Size = new System.Drawing.Size(36, 27);
+            this.HLabel.Size = new System.Drawing.Size(24, 18);
             this.HLabel.TabIndex = 12;
             this.HLabel.Text = "W";
             // 
@@ -229,7 +293,7 @@ namespace MyDrawingForm
             this.WLabel.Location = new System.Drawing.Point(452, 33);
             this.WLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.WLabel.Name = "WLabel";
-            this.WLabel.Size = new System.Drawing.Size(30, 27);
+            this.WLabel.Size = new System.Drawing.Size(20, 18);
             this.WLabel.TabIndex = 11;
             this.WLabel.Text = "H";
             // 
@@ -341,7 +405,7 @@ namespace MyDrawingForm
             this.toolStripTerminatorButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripTerminatorButton.Image")));
             this.toolStripTerminatorButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripTerminatorButton.Name = "toolStripTerminatorButton";
-            this.toolStripTerminatorButton.Size = new System.Drawing.Size(34, 52);
+            this.toolStripTerminatorButton.Size = new System.Drawing.Size(34, 28);
             this.toolStripTerminatorButton.Text = "Terminator";
             this.toolStripTerminatorButton.Click += new System.EventHandler(this.ToolStripTerminatorButton_Click);
             // 
@@ -351,7 +415,7 @@ namespace MyDrawingForm
             this.toolStripProcessButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripProcessButton.Image")));
             this.toolStripProcessButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripProcessButton.Name = "toolStripProcessButton";
-            this.toolStripProcessButton.Size = new System.Drawing.Size(34, 52);
+            this.toolStripProcessButton.Size = new System.Drawing.Size(34, 28);
             this.toolStripProcessButton.Text = "Process";
             this.toolStripProcessButton.Click += new System.EventHandler(this.ToolStripProcessButton_Click);
             // 
@@ -361,7 +425,7 @@ namespace MyDrawingForm
             this.toolStripDecisionButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDecisionButton.Image")));
             this.toolStripDecisionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDecisionButton.Name = "toolStripDecisionButton";
-            this.toolStripDecisionButton.Size = new System.Drawing.Size(34, 52);
+            this.toolStripDecisionButton.Size = new System.Drawing.Size(34, 28);
             this.toolStripDecisionButton.Text = "Decision";
             this.toolStripDecisionButton.Click += new System.EventHandler(this.ToolStripDecisionButton_Click);
             // 
@@ -371,7 +435,7 @@ namespace MyDrawingForm
             this.toolStripConnectorButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripConnectorButton.Image")));
             this.toolStripConnectorButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripConnectorButton.Name = "toolStripConnectorButton";
-            this.toolStripConnectorButton.Size = new System.Drawing.Size(34, 52);
+            this.toolStripConnectorButton.Size = new System.Drawing.Size(34, 28);
             this.toolStripConnectorButton.Text = "toolStripButton1";
             this.toolStripConnectorButton.Click += new System.EventHandler(this.ToolStripConnectorButton_Click);
             // 
@@ -383,7 +447,7 @@ namespace MyDrawingForm
             this.toolStripSelectButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSelectButton.Image")));
             this.toolStripSelectButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSelectButton.Name = "toolStripSelectButton";
-            this.toolStripSelectButton.Size = new System.Drawing.Size(34, 52);
+            this.toolStripSelectButton.Size = new System.Drawing.Size(34, 28);
             this.toolStripSelectButton.Text = "toolStripButton1";
             this.toolStripSelectButton.ToolTipText = "Select";
             this.toolStripSelectButton.Click += new System.EventHandler(this.ToolStripSelectButton_Click);
@@ -395,7 +459,7 @@ namespace MyDrawingForm
             this.toolStripUndoButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripUndoButton.Image")));
             this.toolStripUndoButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripUndoButton.Name = "toolStripUndoButton";
-            this.toolStripUndoButton.Size = new System.Drawing.Size(34, 52);
+            this.toolStripUndoButton.Size = new System.Drawing.Size(34, 28);
             this.toolStripUndoButton.Text = "toolStripButton1";
             this.toolStripUndoButton.Click += new System.EventHandler(this.ToolStripUndoButton_Click);
             // 
@@ -406,81 +470,18 @@ namespace MyDrawingForm
             this.toolStripRedoButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripRedoButton.Image")));
             this.toolStripRedoButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripRedoButton.Name = "toolStripRedoButton";
-            this.toolStripRedoButton.Size = new System.Drawing.Size(34, 52);
+            this.toolStripRedoButton.Size = new System.Drawing.Size(34, 28);
             this.toolStripRedoButton.Text = "toolStripButton2";
             this.toolStripRedoButton.Click += new System.EventHandler(this.ToolStripRedoButton_Click);
             // 
             // drawPanel
             // 
+            this.drawPanel.AccessibleName = "DrawPanel";
             this.drawPanel.Location = new System.Drawing.Point(244, 90);
             this.drawPanel.Margin = new System.Windows.Forms.Padding(4);
             this.drawPanel.Name = "drawPanel";
             this.drawPanel.Size = new System.Drawing.Size(784, 926);
             this.drawPanel.TabIndex = 6;
-            // 
-            // 刪除
-            // 
-            this.刪除.HeaderText = "刪除";
-            this.刪除.MinimumWidth = 8;
-            this.刪除.Name = "刪除";
-            this.刪除.ReadOnly = true;
-            this.刪除.Width = 80;
-            // 
-            // Shape
-            // 
-            this.Shape.HeaderText = "Shape";
-            this.Shape.MinimumWidth = 8;
-            this.Shape.Name = "Shape";
-            this.Shape.ReadOnly = true;
-            this.Shape.Width = 85;
-            // 
-            // ID
-            // 
-            this.ID.HeaderText = "ID";
-            this.ID.MinimumWidth = 8;
-            this.ID.Name = "ID";
-            this.ID.ReadOnly = true;
-            this.ID.Width = 62;
-            // 
-            // name
-            // 
-            this.name.HeaderText = "Text";
-            this.name.MinimumWidth = 8;
-            this.name.Name = "name";
-            this.name.ReadOnly = true;
-            this.name.Width = 75;
-            // 
-            // X
-            // 
-            this.X.HeaderText = "X";
-            this.X.MinimumWidth = 8;
-            this.X.Name = "X";
-            this.X.ReadOnly = true;
-            this.X.Width = 56;
-            // 
-            // Y
-            // 
-            this.Y.HeaderText = "Y";
-            this.Y.MinimumWidth = 8;
-            this.Y.Name = "Y";
-            this.Y.ReadOnly = true;
-            this.Y.Width = 56;
-            // 
-            // Width
-            // 
-            this.Width.HeaderText = "H";
-            this.Width.MinimumWidth = 8;
-            this.Width.Name = "Width";
-            this.Width.ReadOnly = true;
-            this.Width.Width = 56;
-            // 
-            // Height
-            // 
-            this.Height.HeaderText = "W";
-            this.Height.MinimumWidth = 8;
-            this.Height.Name = "Height";
-            this.Height.ReadOnly = true;
-            this.Height.Width = 60;
             // 
             // Form1
             // 

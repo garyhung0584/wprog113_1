@@ -167,6 +167,6 @@ namespace MyDrawingForm
         {
             pModel.ShapeAddComboBoxSelectedIndexChanged(shapeAddComboBox.SelectedItem.ToString());
         }
-
+        
     }
 }
