@@ -33,15 +33,18 @@ namespace MyDrawingFormUITest
         }
 
         [TestMethod]
-        public void ToolStrip()
+        public void Tests()
         {
-            //ToolStripButtons();
-
-            DrawingShapes();
+            ToolStripButtonsTest();
+            DrawShapeTest();
             MoveShapeTest();
+            RemoveShapeTest();
+            AssertShapeTest();
+            EditShapeTest();
+            MoveTextTest();
         }
 
-        public void ToolStripButtons()
+        public void ToolStripButtonsTest()
         {
             _robot.ClickButton("Start");
             _robot.AssertEnable("Start", true);
@@ -49,6 +52,9 @@ namespace MyDrawingFormUITest
             _robot.ClickButton("Terminator");
             _robot.ClickButton("Process");
             _robot.ClickButton("Decision");
+            _robot.ClickButton("toolStripConnectorButton");
+            _robot.ClickButton("toolStripSelectButton");
+
 
             _robot.AssertEnable("Start", true);
             _robot.AssertEnable("Start", true);
@@ -56,7 +62,7 @@ namespace MyDrawingFormUITest
             //isStartChecked = start.GetAttribute("Toggle.ToggleState");
             //Assert.AreEqual("1", isStartChecked);
         }
-        public void DrawingShapes()
+        public void DrawShapeTest()
         {
 
             _robot.ClickButton("Start");
@@ -92,13 +98,98 @@ namespace MyDrawingFormUITest
         }
 
 
+        public void AssertShapeTest()
+        {
+            // Start
+            _robot.AssertEnable("addShape", false);
+            _robot.InputText("nameTextBox", "test");
+            _robot.InputText("xTextBox", "10");
+            _robot.InputText("yTextBox", "10");
+            _robot.InputText("widthTextBox", "100");
+            _robot.InputText("heightTextBox", "100");
+            _robot.SelectComboBox("shapeAddComboBox", "Start");
+            _robot.AssertEnable("addShape", true);
+            _robot.ClickButton("addShape");
+
+            // Terminator
+            _robot.InputText("nameTextBox", "Terminator");
+            _robot.InputText("xTextBox", "110");
+            _robot.InputText("yTextBox", "110");
+            _robot.InputText("widthTextBox", "100");
+            _robot.InputText("heightTextBox", "150");
+            _robot.SelectComboBox("shapeAddComboBox", "Terminator");
+            _robot.AssertEnable("addShape", true);
+            _robot.ClickButton("addShape");
+
+            // Process
+            _robot.InputText("nameTextBox", "Process");
+            _robot.InputText("xTextBox", "210");
+            _robot.InputText("yTextBox", "210");
+            _robot.InputText("widthTextBox", "100");
+            _robot.InputText("heightTextBox", "100");
+            _robot.SelectComboBox("shapeAddComboBox", "Process");
+            _robot.AssertEnable("addShape", true);
+            _robot.ClickButton("addShape");
+
+            // Decision
+            _robot.InputText("nameTextBox", "Decision");
+            _robot.InputText("xTextBox", "310");
+            _robot.InputText("yTextBox", "310");
+            _robot.InputText("widthTextBox", "100");
+            _robot.InputText("heightTextBox", "100");
+            _robot.SelectComboBox("shapeAddComboBox", "Decision");
+            _robot.AssertEnable("addShape", true);
+            _robot.ClickButton("addShape");
+
+            // Assert
+            var state = new string[] { "Start", "0", "test", "10", "10", "100", "100" };
+            _robot.AssertDataGridViewRowData("DataGridView", 0, state);
+
+            state = ["Terminator", "1", "test", "110", "110", "100", "150"];
+            _robot.AssertDataGridViewRowData("DataGridView", 1, state);
+            
+            state = ["Process", "2", "test", "210", "210", "100", "100"];
+            _robot.AssertDataGridViewRowData("DataGridView", 2, state);
+            
+            state = ["Decision", "3", "test", "310", "310", "100", "100"];
+            _robot.AssertDataGridViewRowData("DataGridView", 3, state);
+        }
+
+        public void RemoveShapeTest()
+        {
+            for (int i = 3; i >= 0; i--)
+            {
+                _robot.ClickRemoveDataGridViewRow("DataGridView", i);
+            }
+            UndoRedoTest();
+        }
+
+        public void EditShapeTest()
+        {
+            _robot.ClickAt("DrawPanel", 65, 40);
+            _robot.ClickAt("DrawPanel", 65, 40);
+
+            _robot.AssertEnable("buttonConfirm", false);
+            _robot.InputText("textBox1", "t");
+            _robot.AssertEnable("buttonConfirm", true);
+            _robot.InputText("textBox1", "");
+            _robot.AssertEnable("buttonConfirm", false);
+            _robot.InputText("textBox1", "tesd");
+            _robot.ClickButton("buttonConfirm");
+        }
+        public void MoveTextTest()
+        {
+            _robot.PanelDrag("DrawPanel", 65, 40, 0, 30);
+        }
+
+
         public void UndoRedoTest()
         {
-            //_robot.ClickButton("toolStripUndoButton");
-            //_robot.AssertEnable("toolStripRedoButton", true);
-            //_robot.ClickButton("toolStripRedoButton");
-            //_robot.AssertEnable("toolStripUndoButton", true);
-            //_robot.AssertEnable("toolStripRedoButton", false);
+            _robot.ClickButton("toolStripUndoButton");
+            _robot.AssertEnable("toolStripRedoButton", true);
+            _robot.ClickButton("toolStripRedoButton");
+            _robot.AssertEnable("toolStripUndoButton", true);
+            _robot.AssertEnable("toolStripRedoButton", false);
         }
 
         [TestCleanup()]

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MyDrawingForm
@@ -167,6 +168,63 @@ namespace MyDrawingForm
         {
             pModel.ShapeAddComboBoxSelectedIndexChanged(shapeAddComboBox.SelectedItem.ToString());
         }
-        
+
+
+        private async void AutoSaveTimer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                await Task.Factory.StartNew(() => pModel.AutoSaveAsync(this.Text));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Auto-save failed. Error: {ex.Message}", "Auto-Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+        }
+        private async void ToolStripSaveButton_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "Backup (*.bak)|*.bak|All files (*.*)|*.*";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    toolStripSaveButton.Enabled = false;
+                    try
+                    {
+                        await Task.Factory.StartNew(() => pModel.SaveAsync(saveFileDialog.FileName));
+                        MessageBox.Show("Save completed successfully.", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Failed to save the file. Error: {ex.Message}", "Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    finally
+                    {
+                        toolStripSaveButton.Enabled = true;
+                    }
+                }
+            }
+        }
+
+        private void ToolStripLoadButton_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Backup (*.bak)|*.bak|All files (*.*)|*.*";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        pModel.Load(openFileDialog.FileName);
+                        MessageBox.Show("Load completed successfully.", "Load", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Failed to load the file. Error: {ex.Message}", "Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
     }
 }

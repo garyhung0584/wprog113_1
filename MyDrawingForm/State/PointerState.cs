@@ -1,4 +1,5 @@
 ﻿using MyDrawingForm.Commands;
+using System;
 using System.Windows.Forms;
 
 namespace MyDrawingForm
@@ -45,6 +46,8 @@ namespace MyDrawingForm
 
                     if (shape.IsPointAtText(x, y))
                     {
+                        Console.Write(x);
+                        Console.WriteLine(y);
                         if (_isPressedOnce)
                         {
                             _textChangeService.ShowTextChangeForm(shape);

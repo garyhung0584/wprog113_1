@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -362,6 +364,162 @@ namespace MyDrawingForm
         {
             Shape s = _model.GetShape(_shape, _text, Convert.ToInt32(_x), Convert.ToInt32(_y), Convert.ToInt32(_height), Convert.ToInt32(_width));
             _model.AddShape(s);
+        }
+
+
+        public void ManageBackupFiles(string backupFolder)
+        {
+            var backupFiles = new DirectoryInfo(backupFolder).GetFiles()
+                .OrderByDescending(f => f.CreationTime)
+                .Skip(5)
+                .ToList();
+
+            foreach (var file in backupFiles)
+            {
+                file.Delete();
+            }
+        }
+        public void AutoSaveAsync(string originalTitle)
+        {
+            if (_model.hasChange)
+            {
+                string backupFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "drawing_backup");
+                Directory.CreateDirectory(backupFolder);
+
+                string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+                string backupFileName = $"{timestamp}_bak.p0n3";
+                string backupFilePath = Path.Combine(backupFolder, backupFileName);
+
+                SaveAsync(backupFilePath);
+                ManageBackupFiles(backupFolder);
+
+
+            }
+        }
+
+
+        public void SaveAsync(string filePath)
+        {
+
+            Thread.Sleep(3000);
+            // Create a StringBuilder to build the custom format string
+            var sb = new StringBuilder();
+
+            // Add shapes to the string
+            sb.AppendLine("Shape ID X Y W H Text");
+            List<Task> shapeTasks = new List<Task>();
+            foreach (var shape in _model.GetShapes())
+            {
+                shapeTasks.Add(Task.Run(() =>
+                {
+                    if (shape.ShapeName != "Line")
+                    {
+                        sb.AppendLine($"{shape.ShapeName} {shape.ShapeId} {shape.X} {shape.Y} {shape.Width} {shape.Height} {shape.ShapeText}");
+                    }
+                }));
+            }
+
+            // Wait for all shape tasks to complete
+            Task.WaitAll(shapeTasks.ToArray());
+
+            // Add lines to the string (assuming you have a way to get lines and their connections)
+            sb.AppendLine("---------");
+            sb.AppendLine("Line ID Connection_ShapeID1 Connection_Point1 Connection_ShapeID2 Connection_Point2");
+            List<Task> lineTasks = new List<Task>();
+            foreach (Line line in _model.GetLines()) // Assuming LineShape is a subclass of Shape
+            {
+                lineTasks.Add(Task.Run(() =>
+                {
+                    var (connShapeId1, connPoint1) = (line.Shape1.ShapeId, line.P1);
+                    var (connShapeId2, connPoint2) = (line.Shape2.ShapeId, line.P2);
+                    sb.AppendLine($"Line {connShapeId1} {connPoint1} {connShapeId2} {connPoint2}");
+                }));
+            }
+
+            // Wait for all line tasks to complete
+            Task.WaitAll(lineTasks.ToArray());
+
+            sb.AppendLine("---------");
+            // Write the formatted string to the file
+            File.WriteAllText(filePath, sb.ToString());
+
+            _model.hasChange = false;
+            // Log success message
+            Console.WriteLine("Save completed successfully.");
+
+        }
+
+
+        public void Load(string filePath)
+        {
+
+            Thread.Sleep(3000);
+            // Read the file content
+            var lines = File.ReadAllLines(filePath);
+
+            // Clear existing shapes
+            _model.shapes = new Shapes();
+
+            // Parse shapes
+            int i = 1; // Start after the header line
+            while (i < lines.Length && !lines[i].StartsWith("---------"))
+            {
+                var parts = lines[i].Split(' ');
+                if (parts.Length >= 7)
+                {
+                    string shapeName = parts[0];
+                    int id = int.Parse(parts[1]);
+                    int x = int.Parse(parts[2]);
+                    int y = int.Parse(parts[3]);
+                    int w = int.Parse(parts[4]);
+                    int h = int.Parse(parts[5]);
+                    string text = parts[6];
+
+                    var shape = _model.shapes.GetNewShape(shapeName, text, x, y, w, h);
+                    shape.ShapeId = id; // Set the ID explicitly
+                    _model.shapes.AddShape(shape);
+                }
+                i++;
+            }
+
+            // Parse lines (connections)
+            i += 2; // Skip the "---------" line and the header line for lines
+            while (i < lines.Length && !lines[i].StartsWith("---------"))
+            {
+                var parts = lines[i].Split(' ');
+                if (parts.Length >= 5)
+                {
+                    int connShapeId1 = int.Parse(parts[1]);
+                    int connPoint1 = int.Parse(parts[2]);
+                    int connShapeId2 = int.Parse(parts[3]);
+                    int connPoint2 = int.Parse(parts[4]);
+
+                    Shape shape1 = null;
+                    Shape shape2 = null;
+
+                    foreach (Shape shape in _model.GetShapes())
+                    {
+                        if (shape.ShapeId == connShapeId1)
+                        {
+                            shape1 = shape;
+                        }
+                        if (shape.ShapeId == connShapeId2)
+                        {
+                            shape2 = shape;
+                        }
+                    }
+                    Line line = new Line(shape1, shape2, connPoint1, connPoint2);
+                    _model.AddLine(line);
+                }
+                i++;
+            }
+
+            // Notify observers
+            _model.NotifyModelChanged();
+
+            // Log success message
+            Console.WriteLine("Load completed successfully.");
+
         }
     }
 }

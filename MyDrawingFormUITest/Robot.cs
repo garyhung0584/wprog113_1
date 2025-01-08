@@ -82,6 +82,21 @@ namespace MainFormUITest
             _driver.FindElementByName(name).Click();
         }
 
+        public void InputText(string name, string text)
+        {
+            WindowsElement element = _driver.FindElementByName(name);
+            element.Clear();
+            element.SendKeys(text);
+        }
+
+        public void SelectComboBox(string name, string text)
+        {
+            WindowsElement element = _driver.FindElementByName(name);
+            ClickButton("Open");
+            //element.Click();
+            element.FindElementByName(text).Click();
+        }
+
         // test
         public void AssertEnable(string name, bool state)
         {
@@ -139,6 +154,13 @@ namespace MainFormUITest
                 }
                 else Assert.AreEqual(data[i - 3], rowDatas[i].Text.Replace("(null)", ""));
             }
+        }
+
+        public void ClickRemoveDataGridViewRow(string name, int rowIndex)
+        {
+            var dataGridView = _driver.FindElementByName(name);
+            var row = dataGridView.FindElementByName($"Row {rowIndex}");
+            row.FindElementByName($"刪除 Row {rowIndex}").Click();
         }
     }
 }

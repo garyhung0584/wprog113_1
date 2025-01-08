@@ -30,6 +30,8 @@ namespace MyDrawingForm
 
         List<Line> lines = new List<Line>();
 
+        public bool hasChange = false;
+
 
         public Model()
         {
@@ -161,6 +163,7 @@ namespace MyDrawingForm
 
         public void NotifyModelChanged()
         {
+            hasChange = true;
             if (ModelChanged != null)
                 ModelChanged();
         }

@@ -40,7 +40,7 @@ namespace MyDrawingForm
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ShapeDataGridView = new System.Windows.Forms.DataGridView();
-            this.刪除 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Remove = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Shape = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -71,6 +71,8 @@ namespace MyDrawingForm
             this.toolStripSelectButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripUndoButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripRedoButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSaveButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLoadButton = new System.Windows.Forms.ToolStripButton();
             this.drawPanel = new MyDrawingForm.DoubleBufferedPanel();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -153,7 +155,7 @@ namespace MyDrawingForm
             this.ShapeDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.ShapeDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ShapeDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.刪除,
+            this.Remove,
             this.Shape,
             this.ID,
             this.name,
@@ -170,13 +172,14 @@ namespace MyDrawingForm
             this.ShapeDataGridView.TabIndex = 17;
             this.ShapeDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ShapeDataGridView_CellContentClick);
             // 
-            // 刪除
+            // Remove
             // 
-            this.刪除.HeaderText = "刪除";
-            this.刪除.MinimumWidth = 8;
-            this.刪除.Name = "刪除";
-            this.刪除.ReadOnly = true;
-            this.刪除.Width = 54;
+            this.Remove.HeaderText = "刪除";
+            this.Remove.MinimumWidth = 8;
+            this.Remove.Name = "Remove";
+            this.Remove.ReadOnly = true;
+            this.Remove.ToolTipText = "Remove";
+            this.Remove.Width = 54;
             // 
             // Shape
             // 
@@ -236,6 +239,7 @@ namespace MyDrawingForm
             // 
             // heightTextBox
             // 
+            this.heightTextBox.AccessibleName = "heightTextBox";
             this.heightTextBox.Location = new System.Drawing.Point(335, 35);
             this.heightTextBox.Name = "heightTextBox";
             this.heightTextBox.Size = new System.Drawing.Size(30, 22);
@@ -244,6 +248,7 @@ namespace MyDrawingForm
             // 
             // widthTextBox
             // 
+            this.widthTextBox.AccessibleName = "widthTextBox";
             this.widthTextBox.Location = new System.Drawing.Point(295, 35);
             this.widthTextBox.Name = "widthTextBox";
             this.widthTextBox.Size = new System.Drawing.Size(30, 22);
@@ -252,6 +257,7 @@ namespace MyDrawingForm
             // 
             // yTextBox
             // 
+            this.yTextBox.AccessibleName = "yTextBox";
             this.yTextBox.Location = new System.Drawing.Point(255, 36);
             this.yTextBox.Name = "yTextBox";
             this.yTextBox.Size = new System.Drawing.Size(30, 22);
@@ -260,6 +266,7 @@ namespace MyDrawingForm
             // 
             // xTextBox
             // 
+            this.xTextBox.AccessibleName = "xTextBox";
             this.xTextBox.Location = new System.Drawing.Point(219, 36);
             this.xTextBox.Name = "xTextBox";
             this.xTextBox.Size = new System.Drawing.Size(30, 22);
@@ -318,6 +325,7 @@ namespace MyDrawingForm
             // 
             // nameTextBox
             // 
+            this.nameTextBox.AccessibleName = "nameTextBox";
             this.nameTextBox.Location = new System.Drawing.Point(159, 36);
             this.nameTextBox.Name = "nameTextBox";
             this.nameTextBox.Size = new System.Drawing.Size(57, 22);
@@ -326,6 +334,7 @@ namespace MyDrawingForm
             // 
             // shapeAddComboBox
             // 
+            this.shapeAddComboBox.AccessibleName = "shapeAddComboBox";
             this.shapeAddComboBox.FormattingEnabled = true;
             this.shapeAddComboBox.Items.AddRange(new object[] {
             "Start",
@@ -342,6 +351,7 @@ namespace MyDrawingForm
             // 
             // addShape
             // 
+            this.addShape.AccessibleName = "addShape";
             this.addShape.Location = new System.Drawing.Point(6, 20);
             this.addShape.Margin = new System.Windows.Forms.Padding(2);
             this.addShape.Name = "addShape";
@@ -368,7 +378,9 @@ namespace MyDrawingForm
             this.toolStripConnectorButton,
             this.toolStripSelectButton,
             this.toolStripUndoButton,
-            this.toolStripRedoButton});
+            this.toolStripRedoButton,
+            this.toolStripSaveButton,
+            this.toolStripLoadButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
@@ -429,6 +441,7 @@ namespace MyDrawingForm
             // 
             // toolStripSelectButton
             // 
+            this.toolStripSelectButton.AccessibleName = "toolStripSelectButton";
             this.toolStripSelectButton.Checked = true;
             this.toolStripSelectButton.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripSelectButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -436,7 +449,7 @@ namespace MyDrawingForm
             this.toolStripSelectButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSelectButton.Name = "toolStripSelectButton";
             this.toolStripSelectButton.Size = new System.Drawing.Size(28, 28);
-            this.toolStripSelectButton.Text = "toolStripButton1";
+            this.toolStripSelectButton.Text = "toolStripSelectButton";
             this.toolStripSelectButton.ToolTipText = "Select";
             this.toolStripSelectButton.Click += new System.EventHandler(this.ToolStripSelectButton_Click);
             // 
@@ -463,6 +476,28 @@ namespace MyDrawingForm
             this.toolStripRedoButton.Size = new System.Drawing.Size(28, 28);
             this.toolStripRedoButton.Text = "toolStripRedoButton";
             this.toolStripRedoButton.Click += new System.EventHandler(this.ToolStripRedoButton_Click);
+            // 
+            // toolStripSaveButton
+            // 
+            this.toolStripSaveButton.AccessibleName = "toolStripSaveButton";
+            this.toolStripSaveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripSaveButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSaveButton.Image")));
+            this.toolStripSaveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripSaveButton.Name = "toolStripSaveButton";
+            this.toolStripSaveButton.Size = new System.Drawing.Size(28, 28);
+            this.toolStripSaveButton.Text = "toolStripSaveButton";
+            this.toolStripSaveButton.Click += new System.EventHandler(this.ToolStripSaveButton_Click);
+            // 
+            // toolStripLoadButton
+            // 
+            this.toolStripLoadButton.AccessibleName = "toolStripLoadButton";
+            this.toolStripLoadButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripLoadButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripLoadButton.Image")));
+            this.toolStripLoadButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripLoadButton.Name = "toolStripLoadButton";
+            this.toolStripLoadButton.Size = new System.Drawing.Size(28, 28);
+            this.toolStripLoadButton.Text = "toolStripLoadButton";
+            this.toolStripLoadButton.Click += new System.EventHandler(this.ToolStripLoadButton_Click);
             // 
             // drawPanel
             // 
@@ -538,7 +573,7 @@ namespace MyDrawingForm
         private ToolStripButton toolStripUndoButton;
         private ToolStripButton toolStripRedoButton;
         private ToolStripButton toolStripConnectorButton;
-        private DataGridViewTextBoxColumn 刪除;
+        private DataGridViewTextBoxColumn Remove;
         private DataGridViewTextBoxColumn Shape;
         private DataGridViewTextBoxColumn ID;
         private DataGridViewTextBoxColumn name;
@@ -546,6 +581,7 @@ namespace MyDrawingForm
         private DataGridViewTextBoxColumn Y;
         private DataGridViewTextBoxColumn Width;
         private DataGridViewTextBoxColumn Height;
+        private ToolStripButton toolStripSaveButton;
+        private ToolStripButton toolStripLoadButton;
     }
 }
-
